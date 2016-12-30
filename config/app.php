@@ -162,7 +162,11 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+        Zizaco\Entrust\EntrustServiceProvider::class,
+        Davibennun\LaravelPushNotification\LaravelPushNotificationServiceProvider::class,
+        Jlapp\Swaggervel\SwaggervelServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -225,7 +229,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'PushNotification' => Davibennun\LaravelPushNotification\Facades\PushNotification::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class
     ],
 
 ];

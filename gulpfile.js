@@ -12,8 +12,10 @@ require('laravel-elixir-vue-2');
  | file for our application, as well as publishing vendor resources.
  |
  */
+elixir.config.sourcemaps = false;
 
-elixir(mix => {
-    mix.sass('app.scss')
-       .webpack('app.js');
+elixir(function(mix) {
+    mix.sass('app.scss');
+    mix.sass('style.scss' , 'public/master/css/holiday.css');
+
 });

@@ -1,0 +1,14 @@
+.category {
+    float: left;
+}
+
+.text_holides {
+    float: left;
+    text-decoration: none;
+    color: black;
+    size: 38px;
+}
+
+.setting {
+    width: 15%;
+}

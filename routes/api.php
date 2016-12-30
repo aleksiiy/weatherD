@@ -13,6 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
+    Route::post('auth/login', 'AuthController@login');
+    Route::get('/', 'HolidaysController@show');
+
+    Route::post('holidays_user/create', 'HolidaysController@create_user_holiday');
+    Route::delete('holidays_user/delete/{id}', 'HolidaysController@delete_user_holiday');
+    Route::post('holidays_user/update/{id}', 'HolidaysController@update_user_holiday');
+
+    Route::post('holidays/favorite/{id}', 'HolidaysController@addToFavorite');
+    Route::delete('holidays/favorite/{id}', 'HolidaysController@removeFromFavorite');
+
+    Route::post('');
+});

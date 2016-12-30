@@ -4,10 +4,13 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Carbon;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use EntrustUserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'device_token'
     ];
 
     /**
@@ -26,4 +29,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function holidays() {
+        return $this->hasMany('App\Models\Holiday');
+    }
+
+    public function favorites() {
+        return $this->belongsToMany('App\Models\Holiday', 'holiday_user');
+    }
+
 }

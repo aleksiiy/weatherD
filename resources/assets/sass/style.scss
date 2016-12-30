@@ -1,0 +1,102 @@
+.content_box {
+  width: 100%;
+  min-height: 150px;
+}
+
+.box_form {
+  width: 90%;
+  margin: 10px auto;
+}
+
+.case_from {
+  width: 48%;
+  margin: 10px;
+  float: left;
+}
+
+.control-label {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 3px;
+  border: 1px solid #CCCCCC;
+  padding: 3px;
+}
+
+a .button {
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  border-radius: 3px;
+  background: rgb(64, 199, 129);
+  box-shadow: 0 -3px rgb(53, 167, 110) inset;
+  transition: 0.2s;
+}
+
+a .button:hover {
+  background: rgb(53, 167, 110);
+}
+
+a .button:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
+}
+
+ul.dropdown li {
+  position: relative;
+}
+
+ul.dropdown,
+ul.dropdown-inside {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul.dropdown-inside {
+  position: absolute;
+  left: -9999px;
+}
+
+ul.dropdown li.dropdown-top {
+  display: inline;
+  float: left;
+  margin: 0 1px 0 0;
+}
+
+ul.dropdown li.dropdown-top a {
+  padding: 3px 10px 4px;
+  display: block;
+}
+
+ul.dropdown a.dropdown-top {
+  background: #43a579;
+}
+
+ul.dropdown a.dropdown-top:hover {
+  padding: 2px 10px 5px;
+}
+
+ul.dropdown li.dropdown-top:hover .dropdown-inside {
+  display: block;
+  left: 0;
+}
+
+ul.dropdown .dropdown-inside {
+  background: #fff;
+}
+
+ul.dropdown .dropdown-inside a:hover {
+  background: #efefef;
+}
+
+.description{
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* admin/show holidays */
+.dropdown-top{
+  color: #0A0A0A;
+  font-size: 18px;
+  text-decoration: none;
+}
