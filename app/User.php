@@ -31,11 +31,23 @@ class User extends Authenticatable
     ];
 
     public function holidays() {
-        return $this->hasMany('App\Models\Holiday');
+        return $this->hasMany('App\Models\PrivateHoliday');
     }
 
     public function favorites() {
-        return $this->belongsToMany('App\Models\Holiday', 'holiday_user');
+        return $this->belongsToMany('App\Models\Holiday', 'holidays_users');
     }
 
+    public function getDateAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d', $date)->format('m-d');
+    }
+
+    public function setBalanceAttribute($date)
+    {
+        $currentYearDate = Carbon::createFromFormat('m-d', $date);
+        $currentYearDate->year = 1970;
+        $currentYearDate->format('Y-m-d');
+        $this->attributes['date'] = $currentYearDate;
+    }
 }

@@ -41,16 +41,6 @@
                 </li>
             </ul>
             <ul class="mainnav f-right">
-
-                <li class={{ Request::segment(2) == 'settings' ? "active" : "" }}>
-                    <a href="/admin/settings" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="fa fa-cog fa-2x"></i></a>
-                </li>
-                <li class={{ Request::segment(2) == 'messages' ? "active" : "" }}>
-                    <a href="/admin/messages" data-toggle="tooltip" data-placement="bottom" title="Notivications"><i class="fa fa-bell fa-2x"></i>
-                    </a>
-                </li>
-                <li><a href="" data-toggle="tooltip" data-placement="bottom" title="Users"><i class="fa fa-users fa-2x"></i></a></li>
-
                 <li>
                     <a href="{{ url('/logout') }}"
                        onclick="event.preventDefault();
@@ -72,9 +62,9 @@
         <ul>
             <li class={{ Request::segment(2) == '' ? "active" : "" }}>
                 <a href="/home"><i class="fa fa-home fa-2x"></i><span>Home</span></a></li>
-            <li class={{ Request::segment(2) == 'slider' ? "active" : "" }}>
+            <li class={{ Request::segment(2) == 'category' ? "active" : "" }}>
                 <a href="/admin/category"><i class="fa fa-image fa-2x"></i><span>Категории празника</span></a></li>
-            <li class={{ Request::segment(2) == 'address' ? "active" : "" }}>
+            <li class={{ Request::segment(2) == 'show' ? "active" : "" }}>
                 <a href="/admin/show"><i class="fa fa-book fa-2x" aria-hidden="true"></i><span>Праздники</span></a></li>
 </ul>
         <!-- <a href="" class="copyright">Created by Drews</a> -->

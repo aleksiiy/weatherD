@@ -35,7 +35,7 @@
                     {!! Form::textarea('description_ru', null, ['class' => 'control-label',  'placeholder' => 'Описание события на русском']) !!}
                 </div>
                 <div>
-                    {!! Form::file('image', ['class' => 'form-control', 'required']) !!}
+                    {!! Form::file('image', ['class' => 'form-control']) !!}
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
     <script>
         $(function () {
             $('#datepicker').datetimepicker({
-                format: 'DD/MM'
+                format: 'MM-DD'
             });
         });
     </script>

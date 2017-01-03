@@ -10,7 +10,7 @@
             <h1>{{ $descrip->name_ru }}</h1>
             <h2>{{ $descrip->description_ru }}</h2>
             <h2>{{ $descrip->date }}</h2>
-            <img href="{{ url( $descrip->image ) }}" style="width: 100px; height: 100px;">
+            <img src="{{ $descrip->image }}">
       @endforeach
     </main>
 @endsection

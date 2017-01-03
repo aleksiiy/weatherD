@@ -19,7 +19,7 @@ class CreateHolidaysTable extends Migration
             $table->string('name_kz');
             $table->text('description_ru');
             $table->text('description_kz');
-            $table->string('date');
+            $table->date('date');
             $table->string('image')->nullable();
             $table->integer('category_id')->unsigned();
             $table->timestamps();

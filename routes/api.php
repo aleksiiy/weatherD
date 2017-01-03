@@ -15,14 +15,20 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
     Route::post('auth/login', 'AuthController@login');
-    Route::get('/', 'HolidaysController@show');
+    Route::get('categories', 'HolidaysController@categories');
+    Route::get('categories/{category_id}', 'HolidaysController@categoryHolidays');
 
-    Route::post('holidays_user/create', 'HolidaysController@create_user_holiday');
-    Route::delete('holidays_user/delete/{id}', 'HolidaysController@delete_user_holiday');
-    Route::post('holidays_user/update/{id}', 'HolidaysController@update_user_holiday');
+    Route::post('holidays_user/create', 'HolidaysController@createUserHoliday');
+    Route::delete('holidays_user/delete/{id}', 'HolidaysController@deleteUserHoliday');
+    Route::post('holidays_user/update/{id}', 'HolidaysController@updateUserHoliday');
+
+    Route::get('holiday/{id}', 'HolidaysController@Holiday');
 
     Route::post('holidays/favorite/{id}', 'HolidaysController@addToFavorite');
     Route::delete('holidays/favorite/{id}', 'HolidaysController@removeFromFavorite');
+    Route::get('holidays/random/{skip}', 'HolidaysController@showRandomHoliday');
 
-    Route::post('');
+    Route::get('holidays/near', 'HolidaysController@nearHolidays');
+    Route::get('holidays/search', 'HolidaysController@searchHolidays');
+    Route::get('holidays/month', 'HolidaysController@monthHolidays');
 });

@@ -21,26 +21,18 @@ class HolidayController extends Controller
 
     public function save($id, Request $request)
     {
-        /*--------------------------------------------------------------------------*/
-        /*--------------------------------------------------------------------------*/
-        /*--------------------------------------------------------------------------*/
-        $image_holiday = Input::file('image');
-        $dir = '/uploads/holidays_admin/';
+        $input = $request->except(['image']);
+        if ($image = $request->file('image')) {
+            $dir = Holiday::IMAGE_FOLDER;
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
 
-        do {
-            $filename = str_random(30) . '.' . $image_holiday->getClientOriginalExtension();
-        } while (File::exists(public_path() . $dir . $filename));
-
-        Input::file('image')->move(public_path() . $dir, $filename);
-
-        $request->image = $dir . $filename;
-
-        /*--------------------------------------------------------------------------*/
-        /*--------------------------------------------------------------------------*/
-        /*--------------------------------------------------------------------------*/
-        $holiday = new Holiday($request->all());
+            $image->move(public_path() . $dir, $filename);
+            $input = array_merge($input, ['image' => $filename]);
+        }
+        $holiday = new Holiday($input);
         $category = Category::findOrFail($id);
         $category->holidays()->save($holiday);
+
         return redirect()->back();
     }
 

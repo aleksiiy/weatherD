@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\Category;
 use App\Models\Holiday;
 use App\Models\HolidaysUser;
 use App\Models\PrivateHoliday;
 use App\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,6 +15,7 @@ use Input;
 use File;
 use JWTAuth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Auth\UserInterface;
 
 class HolidaysController extends Controller
 {
@@ -24,13 +27,14 @@ class HolidaysController extends Controller
 
     /**
      * @SWG\Get(
-     *     path="/api/v1/",
-     *     summary="Holiday delete",
+     *     path="/api/v1/categories",
+     *     summary="Categories",
      *     tags={"holidays"},
-     *     description="Holiday delete",
-     *     operationId="holidayDelete",
+     *     description="Categories",
+     *     operationId="Categories",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
+     *
      *
      *     @SWG\Response(
      *         response="200",
@@ -39,10 +43,61 @@ class HolidaysController extends Controller
      * )
      *
      */
-    public function show()
+
+    public function categories()
     {
-        $holidays = Holiday::all();
-        return response()->json(compact('holidays'));
+        $categories = Category::all();
+        return response()->json(compact('categories'));
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/categories/{category_id}",
+     *     summary="Holiday delete",
+     *     tags={"holidays"},
+     *     description="Holiday delete",
+     *     operationId="holidayDelete",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *      @SWG\Parameter(
+     *         name="category_id",
+     *         in="path",
+     *         description="Device token",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *
+     *     @SWG\Parameter(
+     *         name="skip",
+     *         in="query",
+     *         description="Device token",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="take",
+     *         in="query",
+     *         description="Take",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function categoryHolidays($category_id, Request $request)
+    {
+        $category = Category::findOrFail($category_id);
+        $total = $category->holidays()->count();
+        $holidays = $category->holidays()->skip($request->skip)->take($request->take)->get();
+
+        return response()->json(compact('total', 'holidays'));
     }
 
     /**
@@ -110,14 +165,14 @@ class HolidaysController extends Controller
      * )
      *
      */
-    public function create_user_holiday(Request $request)
+    public function createUserHoliday(Request $request)
     {
         //$user - returns an array with information about the user
         $user = JWTAuth::parseToken()->authenticate();
         $input = $request->except(['image']);
         /* image */
         if ($image = $request->file('image')) {
-            $dir = '/uploads/holidays/';
+            $dir = PrivateHoliday::IMAGE_FOLDER;
             $filename = uniqid() . '.' . $image->getClientOriginalExtension();
 
             $image->move(public_path() . $dir, $filename);
@@ -203,7 +258,7 @@ class HolidaysController extends Controller
      *
      */
 
-    public function update_user_holiday($id, Request $request)
+    public function updateUserHoliday($id, Request $request)
     {
         //$user - returns an array with information about the user
         $user = JWTAuth::parseToken()->authenticate();
@@ -215,7 +270,7 @@ class HolidaysController extends Controller
         $input = $request->except(['image']);
         /* image */
         if ($image = $request->file('image')) {
-            $dir = '/uploads/holidays/';
+            $dir = PrivateHoliday::IMAGE_FOLDER;
             File::delete(public_path() . $dir . $holiday->image);
             $filename = uniqid() . '.' . $image->getClientOriginalExtension();
 
@@ -251,7 +306,7 @@ class HolidaysController extends Controller
      * )
      *
      */
-    public function delete_user_holiday($id)
+    public function deleteUserHoliday($id)
     {
         try {
             $holiday = PrivateHoliday::findOrFail($id);
@@ -263,6 +318,47 @@ class HolidaysController extends Controller
         return response()->json(true, 200);
 
     }
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holiday/{id}",
+     *     summary="Holiday",
+     *     tags={"holidays"},
+     *     description="Holiday delete",
+     *     operationId="holidayDelete",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *     @SWG\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Delet id",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function Holiday($id)
+    {
+
+        $user = JWTAuth::parseToken()->authenticate();
+        try {
+            $holiday = Holiday::findOrFail($id);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'holiday not found'], 404);
+        }
+        $favorites = $user->favorites()->pluck('holiday_id')->toArray();
+        $holiday->favorite = in_array($id, $favorites);
+
+        return response()->json(compact('holiday'));
+    }
+
 
     /**
      * @SWG\Post(
@@ -328,6 +424,195 @@ class HolidaysController extends Controller
         $destroy = HolidaysUser::whereHolidayId($id);
         $destroy->delete();
         return response()->json(true, 200);
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays/random/{skip}",
+     *     summary="Random Holiday",
+     *     tags={"holidays"},
+     *     description="Random holiday",
+     *     operationId="RandomHoliday",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *      @SWG\Parameter(
+     *         name="skip",
+     *         in="query",
+     *         description="Skip random holiday",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="take",
+     *         in="query",
+     *         description="Take",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function showRandomHoliday(Request $request)
+    {
+        $randomHoliday = Holiday::inRandomOrder(8)->skip($request->skip)->take($request->take)->get();
+        return response()->json(compact('randomHoliday'));
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays/near",
+     *     summary="Random Holiday",
+     *     tags={"holidays"},
+     *     description="Random holiday",
+     *     operationId="RandomHoliday",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *     @SWG\Parameter(
+     *         name="skip",
+     *         in="query",
+     *         description="Skip random holiday",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="take",
+     *         in="query",
+     *         description="Take",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function nearHolidays(Request $request)
+    {
+        $dateInMonth = Carbon::now()->addMonth();
+        $dateInMonth->year = Holiday::DEFAULT_YEAR;
+        $dateInMonth->format('Y-d-m');
+        $now = Carbon::now();
+        $now->year = Holiday::DEFAULT_YEAR;
+        $now->format('Y-d-m');
+        $query = Holiday::whereBetween('date', [$now, $dateInMonth]);
+        $total = $query->count();
+        $holidays = $query->orderBy('date', 'asc')->skip($request->skip)->take($request->take)->get();
+        return response()->json(compact('total', 'holidays'));
+    }
+
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays/month",
+     *     summary="Random Holiday",
+     *     tags={"holidays"},
+     *     description="Random holiday",
+     *     operationId="RandomHoliday",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *       @SWG\Parameter(
+     *         name="month",
+     *         in="query",
+     *         description="Month",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *      @SWG\Parameter(
+     *         name="skip",
+     *         in="query",
+     *         description="Skip",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="take",
+     *         in="query",
+     *         description="Take",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function monthHolidays(Request $request)
+    {
+        $month = $request->month;
+        $dateStart = Carbon::createFromDate(1970, $month)->startOfMonth();
+        $dateEnd = Carbon::createFromDate(1970, $month)->endOfMonth();
+        $query = Holiday::whereBetween('date', [$dateStart, $dateEnd]);
+        $total = $query->count();
+        $holidays = $query->orderBy('date', 'asc')->skip($request->skip)->take($request->take)->get();
+
+        return response()->json(compact('total', 'holidays'));
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays/search",
+     *     summary="Seaac",
+     *     tags={"holidays"},
+     *     description="Random holiday",
+     *     operationId="RandomHoliday",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *       @SWG\Parameter(
+     *         name="q",
+     *         in="query",
+     *         description="Month",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *      @SWG\Parameter(
+     *         name="skip",
+     *         in="query",
+     *         description="Skip random holiday",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="take",
+     *         in="query",
+     *         description="Take",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function searchHolidays(Request $request)
+    {
+        $search = $request->q;
+        $query = Holiday::where('name_ru', 'like', '%' . $search . '%');
+        $total = $query->count();
+        $holidays = $query->orderBy('date', 'asc')->skip($request->skip)->take($request->take)->get();
+
+        return response()->json(compact('total', 'holidays'));
     }
 
 

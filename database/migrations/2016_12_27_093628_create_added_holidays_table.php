@@ -19,7 +19,7 @@ class CreateAddedHolidaysTable extends Migration
             $table->string('name')->nullable();
             $table->integer('user_id')->unsigned();
             $table->text('description')->nullable();
-            $table->string('date')->nullable();
+            $table->date('date');
             $table->enum('date_color', ['#000000', '#ffffff', '#929292', '#ff0000', '#a1d623', '#20b1f5'])->default('#000000');
             $table->enum('name_color', ['#000000', '#ffffff', '#929292', '#ff0000', '#a1d623', '#20b1f5'])->default('#000000');
             $table->string('image')->nullable();
