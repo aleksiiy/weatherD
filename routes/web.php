@@ -33,6 +33,10 @@ Route::group(['prefix' => 'admin' , 'namespace' => 'Admin'], function () {
     Route::get('/category/{id}', 'HolidayController@create');
     Route::PATCH('/category/{id}', 'HolidayController@save');
 
+    Route::get('/holiday/update/{id}','HolidayController@updateHoliday');
+    Route::post('/holiday/edit/{id}','HolidayController@editHoliday');
+    Route::get('/holiday/destroy/{id}','HolidayController@destroyHoliday');
+
     Route::get('/show','HolidayController@show');
     Route::get('/description/{id}','HolidayController@description');
 });

@@ -167,7 +167,6 @@ class HolidaysController extends Controller
      */
     public function createUserHoliday(Request $request)
     {
-        //$user - returns an array with information about the user
         $user = JWTAuth::parseToken()->authenticate();
         $input = $request->except(['image']);
         /* image */
@@ -439,7 +438,7 @@ class HolidaysController extends Controller
      *      @SWG\Parameter(
      *         name="skip",
      *         in="query",
-     *         description="Skip random holiday",
+     *         description="showRandomHoliday",
      *         required=true,
      *         type="integer"
      *     ),
@@ -615,5 +614,98 @@ class HolidaysController extends Controller
         return response()->json(compact('total', 'holidays'));
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays/show",
+     *     summary="Seaac",
+     *     tags={"holidays"},
+     *     description="Random holiday",
+     *     operationId="RandomHoliday",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *      @SWG\Parameter(
+     *         name="skip",
+     *         in="query",
+     *         description="Skip random holiday",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="take",
+     *         in="query",
+     *         description="Take",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function showHolidays(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate()->id;
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'holiday not found'], 404);
+        }
+        $query = PrivateHoliday::whereUserId($user);
+        $total = $query->count();
+        $holidays = $query->skip($request->skip)->take($request->take)->get();
+
+        return response()->json(compact('total', 'holidays'));
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays/show_favorite",
+     *     summary="Seaac",
+     *     tags={"holidays"},
+     *     description="Random holiday",
+     *     operationId="RandomHoliday",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *      @SWG\Parameter(
+     *         name="skip",
+     *         in="query",
+     *         description="Skip random holiday",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="take",
+     *         in="query",
+     *         description="Take",
+     *         required=true,
+     *         type="integer"
+     *     ),
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function showFavoriteHolidays(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate()->id;
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'holiday not found'], 404);
+        }
+        $query = HolidaysUser::whereUserId($user);
+        $total = $query->count();
+        $holidays = $query->skip($request->skip)->take($request->take)->get();
+
+        return response()->json(compact('total', 'holidays'));
+    }
 
 }

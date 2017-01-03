@@ -42,9 +42,36 @@ class HolidayController extends Controller
         return view('admin.holidays.show_holiday', compact('holidays'));
     }
 
-    public function description($id)
+    public function updateHoliday($id)
     {
-        $description = Holiday::whereId($id)->get();
-        return view('admin.holidays.description', compact('description'));
+        $holiday = Holiday::findOrFail($id);
+        return view('admin.holidays.update_holiday', compact('holiday'));
+    }
+
+    public function editHoliday($id, Request $request)
+    {
+        try {
+            $holiday = Holiday::findOrFail($id);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'holiday not found'], 404);
+        }
+        $input = $request->except(['image']);
+        /* image */
+        if ($image = $request->file('image')) {
+            $dir = Holiday::IMAGE_FOLDER;
+            File::delete(public_path() . $dir . $holiday->image);
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+
+            $image->move(public_path() . $dir, $filename);
+            $input = array_merge($input, ['image' => $filename]);
+        }
+        $holiday->update($input);
+        return redirect('admin/show');
+    }
+
+    public function destroyHoliday($id)
+    {
+        Holiday::whereId($id)->delete();
+        return redirect('admin/show');
     }
 }

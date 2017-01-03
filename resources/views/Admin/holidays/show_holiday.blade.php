@@ -6,186 +6,42 @@
 @section('content')
     <main>
 
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Январь</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '01')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Февраль</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '02')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Март</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '03')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Апрель</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '04')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Май</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '05')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Июнь</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '06')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Июль</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '07')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Август</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '08')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Сентябрь</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '09')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Октябырь</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '10')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Картинка</th>
+                    <th>Название праздника</th>
+                    <th class="setting">Инструменты</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if(!$holidays->isEmpty())
+                    @foreach($holidays as $holiday)
+                        <tr>
+                            <td>
+                                <img src="{{ $holiday->image }}" width="70px" height="50px;">
+                            </td>
+                            <td>
+                                <a href="/admin/category/{{$holiday->id}}" class="text_holides">
+                                    {{ $holiday->name_ru }}
+                                </a>
+                            </td>
 
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Ноябырь</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '11')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <ul class="dropdown">
-                <li class="dropdown-top">
-                    <a class="dropdown-top">Декабрь</a>
-                    <ul class="dropdown-inside">
-                        @foreach($holidays as $holiday)
-                            <?php $rest = substr($holiday->date, 3, 4)?>
-                            @if($rest == '12')
-                                <li><a href="/admin/description/{{$holiday->id}}" class="description">{{ $holiday->name_ru }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
+                            <td class="setting">
+                                <a href="/admin/holiday/update/{{$holiday->id}}" class="fa fa-pencil-square"
+                                   aria-hidden="true"></a>
+
+                                <a href="/admin/holiday/destroy/{{$holiday->id}}" style="color: red;" class="fa fa-trash"
+                                   aria-hidden="true"></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <h2>Категории отсуцтвуют</h2>
+                @endif
+                </tbody>
+            </table>
         </div>
 
     </main>

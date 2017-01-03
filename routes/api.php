@@ -23,12 +23,13 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
     Route::post('holidays_user/update/{id}', 'HolidaysController@updateUserHoliday');
 
     Route::get('holiday/{id}', 'HolidaysController@Holiday');
-
     Route::post('holidays/favorite/{id}', 'HolidaysController@addToFavorite');
-    Route::delete('holidays/favorite/{id}', 'HolidaysController@removeFromFavorite');
+    Route::delete('holidays/destroy/{id}', 'HolidaysController@destroy');
     Route::get('holidays/random/{skip}', 'HolidaysController@showRandomHoliday');
 
     Route::get('holidays/near', 'HolidaysController@nearHolidays');
     Route::get('holidays/search', 'HolidaysController@searchHolidays');
     Route::get('holidays/month', 'HolidaysController@monthHolidays');
+    Route::get('holidays/show', 'HolidaysController@showHolidays');
+    Route::get('holidays/show_favorite', 'HolidaysController@showFavoriteHolidays');
 });
