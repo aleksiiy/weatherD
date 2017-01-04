@@ -46,7 +46,7 @@
         <div class="box_form">
             <div class="form-group">
                 <div class='input-group date' id='datepicker'>
-                    <input type='text' required name="date" class="form-control"/>
+                    <input type='text' required name="date" value="{{ $holiday->date }}" class="form-control"/>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
