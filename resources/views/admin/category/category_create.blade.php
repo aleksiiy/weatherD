@@ -45,7 +45,7 @@
                     'enctype' => 'multipart/form-data'
             ]) !!}
             {!! Form::text('name_ru', null,['class' => 'form-control','required','style' => 'margin:10px 30px; width:60%;', 'placeholder' => 'Название категории на русском']) !!}
-            {!! Form::text('name_kz', null,['class' => 'form-control','required', 'style' => 'margin:10px 30px; width:60%;', 'placeholder' => 'Название категории на казахском']) !!}
+            {!! Form::text('name_kz', null,['class' => 'form-control','required', 'style' => 'margin:10px 30px; width:60%;', 'placeholder' => 'Іс-шара тақырыбы қазақ']) !!}
             {!! Form::submit('Submit', ['class' => 'form-control', 'style' => 'margin:10px 30px; width:60%;']) !!}
             {!! Form::close() !!}
         </div>

@@ -24,7 +24,7 @@
                     {!! Form::text('name_kz', null, ['class' => 'control-label', 'required', 'placeholder' => 'Название события на казахском']) !!}
                 </div>
                 <div>
-                    {!! Form::textarea('description_kz', null, ['class' => 'control-label','required',  'placeholder' => 'Описание события на казахском']) !!}
+                    {!! Form::textarea('description_kz', null, ['class' => 'control-label','required',  'placeholder' => 'Описания события на кахском']) !!}
                 </div>
             </div>
             <div class="form-group">

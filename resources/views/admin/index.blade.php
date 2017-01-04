@@ -58,12 +58,12 @@
     </header><!-- .header-->
 
     <nav class="left-sidebar">
-        <div class="logo"><a href="">Holidays</a></div>
+        <div class="logo"><a href="/home">Праздники</a></div>
         <ul>
             <li class={{ Request::segment(2) == '' ? "active" : "" }}>
-                <a href="/home"><i class="fa fa-home fa-2x"></i><span>Home</span></a></li>
+                <a href="/home"><i class="fa fa-info fa-2x"></i><span>Общая информация</span></a></li>
             <li class={{ Request::segment(2) == 'category' ? "active" : "" }}>
-                <a href="/admin/category"><i class="fa fa-image fa-2x"></i><span>Категории празника</span></a></li>
+                <a href="/admin/category"><i class="fa fa-list-ol fa-2x"></i><span>Категории празника</span></a></li>
             <li class={{ Request::segment(2) == 'show' ? "active" : "" }}>
                 <a href="/admin/show"><i class="fa fa-book fa-2x" aria-hidden="true"></i><span>Праздники</span></a></li>
 </ul>
