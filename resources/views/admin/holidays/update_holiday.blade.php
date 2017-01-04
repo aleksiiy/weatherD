@@ -20,13 +20,13 @@
                 </div>
                 <div>
                     {!! Form::label('email', 'Описание события на казахском' , ['style' => 'margin-top: 10px;']) !!}
-                    {!! Form::textarea('description_kz', null, ['class' => 'control-label' ,'style' => 'margin-top: 1px;','placeholder' => 'Описание события на казахском']) !!}
+                    {!! Form::textarea('description_kz', null, ['class' => 'control-label' , 'required', 'style' => 'margin-top: 1px;','placeholder' => 'Описание события на казахском']) !!}
                 </div>
             </div>
             <div class="form-group">
                 <div>
                     {!! Form::label('email', 'Название события на русском', ['style' => 'margin-top: 10px;']) !!}
-                    {!! Form::text('name_ru', null, ['class' => 'control-label', 'required','style' => 'margin-top: 1px;' , 'placeholder' => 'Название события на русском']) !!}
+                    {!! Form::text('name_ru', null, ['class' => 'control-label', 'style' => 'margin-top: 1px;' , 'placeholder' => 'Название события на русском']) !!}
                 </div>
                 <div>
                     {!! Form::label('email', 'Описание события на русском' , ['style' => 'margin-top: 10px;']) !!}

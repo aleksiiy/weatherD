@@ -24,12 +24,12 @@
                     {!! Form::text('name_kz', null, ['class' => 'control-label', 'required', 'placeholder' => 'Название события на казахском']) !!}
                 </div>
                 <div>
-                    {!! Form::textarea('description_kz', null, ['class' => 'control-label',  'placeholder' => 'Описание события на казахском']) !!}
+                    {!! Form::textarea('description_kz', null, ['class' => 'control-label','required',  'placeholder' => 'Описание события на казахском']) !!}
                 </div>
             </div>
             <div class="form-group">
                 <div>
-                    {!! Form::text('name_ru', null, ['class' => 'control-label','required',  'placeholder' => 'Название события на русском']) !!}
+                    {!! Form::text('name_ru', null, ['class' => 'control-label', 'placeholder' => 'Название события на русском']) !!}
                 </div>
                 <div>
                     {!! Form::textarea('description_ru', null, ['class' => 'control-label',  'placeholder' => 'Описание события на русском']) !!}

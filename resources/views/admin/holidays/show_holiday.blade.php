@@ -28,7 +28,11 @@
                             </td>
                             <td>
                                 <p class="text_holides">
+                                    @if($holiday->name_ru != '')
                                     {{ $holiday->name_ru }}
+                                        @else
+                                    {{ $holiday->name_kz }}
+                                    @endif
                                 </p>
                             </td>
 
