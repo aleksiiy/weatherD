@@ -1,15 +1,15 @@
 <?php
 
 return array(
-        'appNameIOS'=>array(
+        'kzHolidaysIOS'=>array(
             'environment' => 'development',
             'certificate' => '/path/to/certificate.pem',
             'passPhrase'  => 'password',
             'service'     => 'apns'
         ),
-        'appNameAndroid'=>array(
+        'kzHolidaysAndroid'=>array(
             'environment' => 'production',
-            'apiKey'      => 'yourAPIKey',
+            'apiKey'      => 'AIzaSyAR8eoUKviWiO80TYx4Mr7dF2du_swfhnc',
             'service'     => 'gcm'
         )
 );
