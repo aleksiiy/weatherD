@@ -16,7 +16,7 @@
         <div class="box_form">
             <div class="form-group">
                 <div>{!! Form::label('email', 'Название события на казахском' , ['style' => 'margin-top: 10px;']) !!}
-                    {!! Form::text('name_kz', null, ['class' => 'control-label' ,'style' => 'margin-top: 1px;',  'placeholder' => 'Название события на казахском']) !!}
+                    {!! Form::text('name_kz', null, ['class' => 'control-label' ,'required','style' => 'margin-top: 1px;',  'placeholder' => 'Название события на казахском']) !!}
                 </div>
                 <div>
                     {!! Form::label('email', 'Описание события на казахском' , ['style' => 'margin-top: 10px;']) !!}
@@ -26,14 +26,18 @@
             <div class="form-group">
                 <div>
                     {!! Form::label('email', 'Название события на русском', ['style' => 'margin-top: 10px;']) !!}
-                    {!! Form::text('name_ru', null, ['class' => 'control-label','style' => 'margin-top: 1px;' , 'placeholder' => 'Название события на русском']) !!}
+                    {!! Form::text('name_ru', null, ['class' => 'control-label', 'required','style' => 'margin-top: 1px;' , 'placeholder' => 'Название события на русском']) !!}
                 </div>
                 <div>
                     {!! Form::label('email', 'Описание события на русском' , ['style' => 'margin-top: 10px;']) !!}
                     {!! Form::textarea('description_ru', null, ['class' => 'control-label' ,'style' => 'margin-top: 1px;', 'placeholder' => 'Описание события на русском']) !!}
                 </div>
                 <div>
-                    <img src="{{ $holiday->image }}">
+                    @if($holiday->image != null)
+                        <img src="{{ $holiday->image }}" width="50px" height="50px;">
+                    @else
+                        <i class="fa fa-file-image-o fa-2x" style="color:#53a17e;" aria-hidden="true"></i>
+                    @endif
                     {!! Form::file('image', ['class' => 'form-control']) !!}
                 </div>
             </div>
@@ -42,7 +46,7 @@
         <div class="box_form">
             <div class="form-group">
                 <div class='input-group date' id='datepicker'>
-                    <input type='text' name="date" class="form-control"/>
+                    <input type='text' required name="date" class="form-control"/>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>

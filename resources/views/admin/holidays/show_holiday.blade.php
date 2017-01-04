@@ -20,7 +20,11 @@
                     @foreach($holidays as $holiday)
                         <tr>
                             <td>
+                                @if($holiday->image != null)
                                 <img src="{{ $holiday->image }}" width="50px" height="50px;">
+                                  @else
+                                    <i class="fa fa-file-image-o fa-2x" style="color:#53a17e;" aria-hidden="true"></i>
+                                @endif
                             </td>
                             <td>
                                 <p class="text_holides">

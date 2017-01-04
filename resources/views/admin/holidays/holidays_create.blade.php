@@ -21,7 +21,7 @@
         <div class="box_form">
             <div class="form-group">
                 <div>
-                    {!! Form::text('name_kz', null, ['class' => 'control-label',  'placeholder' => 'Название события на казахском']) !!}
+                    {!! Form::text('name_kz', null, ['class' => 'control-label', 'required', 'placeholder' => 'Название события на казахском']) !!}
                 </div>
                 <div>
                     {!! Form::textarea('description_kz', null, ['class' => 'control-label',  'placeholder' => 'Описание события на казахском']) !!}
@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 <div>
-                    {!! Form::text('name_ru', null, ['class' => 'control-label',  'placeholder' => 'Название события на русском']) !!}
+                    {!! Form::text('name_ru', null, ['class' => 'control-label','required',  'placeholder' => 'Название события на русском']) !!}
                 </div>
                 <div>
                     {!! Form::textarea('description_ru', null, ['class' => 'control-label',  'placeholder' => 'Описание события на русском']) !!}
@@ -43,7 +43,7 @@
         <div class="box_form">
             <div class="form-group">
                 <div class='input-group date' id='datepicker'>
-                    <input type='text' name="date" class="form-control"/>
+                    <input type='text' required name="date" class="form-control"/>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
