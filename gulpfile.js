@@ -17,5 +17,5 @@ elixir.config.sourcemaps = false;
 elixir(function(mix) {
     mix.sass('app.scss');
     mix.sass('style.scss' , 'public/master/css/holiday.css');
-
+    mix.sass('home.scss', 'public/master/css/home.css');
 });

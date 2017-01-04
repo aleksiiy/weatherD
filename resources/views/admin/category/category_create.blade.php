@@ -23,10 +23,10 @@
                                 </a>
                             </td>
                             <td class="setting">
-                                <a href="/admin/category/update/{{$category->id}}" class="fa fa-pencil-square"
+                                <a href="/admin/category/update/{{$category->id}}" class="fa fa-pencil-square fa-2x"
                                    aria-hidden="true"></a>
                                 @if($category->id > '5')
-                                    <a href="/admin/category/destroy/{{$category->id}}" class="fa fa-trash"
+                                    <a href="/admin/category/destroy/{{$category->id}}" class="fa fa-trash fa-2x"
                                        aria-hidden="true"></a>
                                 @endif
                             </td>

@@ -18,11 +18,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/admin', 'HomeController@index');
 
 Route::group(['prefix' => 'admin' , 'namespace' => 'Admin'], function () {
     Route::get('/', 'MainController@index');
-    Route::get('/panels', 'MainController@panels');
 
     Route::get('/category', 'MainController@category');
     Route::PATCH('/category_create', 'MainController@category_create');

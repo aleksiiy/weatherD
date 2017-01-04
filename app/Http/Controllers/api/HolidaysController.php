@@ -278,7 +278,7 @@ class HolidaysController extends Controller
             $input = array_merge($input, ['image' => $filename]);
         }
         $holiday->update($input);
-        $holiday = PrivateHoliday::findOrFail($id);
+        $holiday = PrivateHoliday::findOrFail($holiday->id);
 
         return response()->json(compact('holiday'));
     }
@@ -317,6 +317,43 @@ class HolidaysController extends Controller
         File::delete(public_path() . $holiday->image);
         $holiday->delete();
         return response()->json(true, 200);
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays_user/{id}",
+     *     summary="PrivateHoliday",
+     *     tags={"holidays"},
+     *     description="Private Holiday",
+     *     operationId="privateHoliday",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *     @SWG\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Private Holiday ID",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function showPrivateHoliday($id)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+        try {
+            $holiday = PrivateHoliday::findOrFail($id);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'holiday not found'], 404);
+        }
+
+        return response()->json(compact('holiday'));
     }
 
     /**
@@ -603,7 +640,7 @@ class HolidaysController extends Controller
 
     /**
      * @SWG\Get(
-     *     path="/api/v1/holidays/show",
+     *     path="/api/v1/holidays_user/show",
      *     summary="Seaac",
      *     tags={"holidays"},
      *     description="Random holiday",
