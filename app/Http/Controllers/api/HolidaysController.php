@@ -530,20 +530,6 @@ class HolidaysController extends Controller
      *         required=true,
      *         type="string"
      *     ),
-     *      @SWG\Parameter(
-     *         name="skip",
-     *         in="query",
-     *         description="Skip",
-     *         required=true,
-     *         type="integer"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="take",
-     *         in="query",
-     *         description="Take",
-     *         required=true,
-     *         type="integer"
-     *     ),
      *
      *     @SWG\Response(
      *         response="200",
@@ -560,7 +546,7 @@ class HolidaysController extends Controller
         $dateEnd = Carbon::createFromDate(1970, $month)->endOfMonth();
         $query = Holiday::whereBetween('date', [$dateStart, $dateEnd]);
         $total = $query->count();
-        $holidays = $query->orderBy('date', 'asc')->skip($request->skip)->take($request->take)->get();
+        $holidays = $query->orderBy('date', 'asc')->get();
 
         return response()->json(compact('total', 'holidays'));
     }
