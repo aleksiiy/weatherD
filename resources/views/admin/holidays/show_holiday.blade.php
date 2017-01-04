@@ -20,7 +20,7 @@
                     @foreach($holidays as $holiday)
                         <tr>
                             <td>
-                                <img src="/uploads/holidays_admin/{{ $holiday->image }}" width="50px" height="50px;">
+                                <img src="{{ $holiday->image }}" width="50px" height="50px;">
                             </td>
                             <td>
                                 <p class="text_holides">
