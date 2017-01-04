@@ -38,6 +38,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Holiday', 'holidays_users');
     }
 
+    public function settings() {
+        return $this->hasOne('App\Models\UserSettings');
+    }
+
     public function getDateAttribute($date)
     {
         return Carbon::createFromFormat('Y-m-d', $date)->format('m-d');

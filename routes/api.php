@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
     Route::post('auth/login', 'AuthController@login');
+    Route::post('user/settings', 'UsersController@settings');
+
     Route::get('categories', 'HolidaysController@categories');
     Route::get('categories/{category_id}', 'HolidaysController@categoryHolidays');
 

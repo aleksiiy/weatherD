@@ -179,6 +179,7 @@ class HolidaysController extends Controller
         }
         $holiday = new PrivateHoliday($input);
         $user->holidays()->save($holiday);
+        $holiday = PrivateHoliday::findOrFail($holiday->id);
 
         return response()->json(compact('holiday'));
 
@@ -277,6 +278,7 @@ class HolidaysController extends Controller
             $input = array_merge($input, ['image' => $filename]);
         }
         $holiday->update($input);
+        $holiday = PrivateHoliday::findOrFail($id);
 
         return response()->json(compact('holiday'));
     }
@@ -315,7 +317,6 @@ class HolidaysController extends Controller
         File::delete(public_path() . $holiday->image);
         $holiday->delete();
         return response()->json(true, 200);
-
     }
 
     /**
