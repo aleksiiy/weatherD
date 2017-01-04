@@ -20,25 +20,25 @@
                     @foreach($holidays as $holiday)
                         <tr>
                             <td>
-                                <img src="{{ $holiday->image }}" width="70px" height="50px;">
+                                <img src="/uploads/holidays_admin/{{ $holiday->image }}" width="50px" height="50px;">
                             </td>
                             <td>
-                                <a href="/admin/category/{{$holiday->id}}" class="text_holides">
+                                <p class="text_holides">
                                     {{ $holiday->name_ru }}
-                                </a>
+                                </p>
                             </td>
 
                             <td class="setting">
-                                <a href="/admin/holiday/update/{{$holiday->id}}" class="fa fa-pencil-square"
+                                <a href="/admin/holiday/update/{{$holiday->id}}" class="fa fa-pencil-square fa-2x"
                                    aria-hidden="true"></a>
 
-                                <a href="/admin/holiday/destroy/{{$holiday->id}}" style="color: red;" class="fa fa-trash"
+                                <a href="/admin/holiday/destroy/{{$holiday->id}}" style="color: red;" class="fa fa-trash fa-2x"
                                    aria-hidden="true"></a>
                             </td>
                         </tr>
                     @endforeach
                 @else
-                    <h2>Категории отсуцтвуют</h2>
+                    <h2>Праздники отсуцтвуют</h2>
                 @endif
                 </tbody>
             </table>

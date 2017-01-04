@@ -30,10 +30,6 @@ class MainController extends Controller
      * @return void
      */
 
-    public function panels()
-    {
-        return view('admin.panels');
-    }
 
     public function login()
     {

@@ -21,6 +21,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
     Route::post('holidays_user/create', 'HolidaysController@createUserHoliday');
     Route::delete('holidays_user/delete/{id}', 'HolidaysController@deleteUserHoliday');
     Route::post('holidays_user/update/{id}', 'HolidaysController@updateUserHoliday');
+    Route::get('holidays_user/show', 'HolidaysController@showHolidays');
+    Route::get('holidays_user/{id}', 'HolidaysController@showPrivateHoliday');
 
     Route::get('holiday/{id}', 'HolidaysController@Holiday');
     Route::post('holidays/favorite/{id}', 'HolidaysController@addToFavorite');
@@ -30,6 +32,5 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
     Route::get('holidays/near', 'HolidaysController@nearHolidays');
     Route::get('holidays/search', 'HolidaysController@searchHolidays');
     Route::get('holidays/month', 'HolidaysController@monthHolidays');
-    Route::get('holidays/show', 'HolidaysController@showHolidays');
     Route::get('holidays/show_favorite', 'HolidaysController@showFavoriteHolidays');
 });
