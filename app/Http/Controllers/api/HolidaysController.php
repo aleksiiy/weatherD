@@ -721,15 +721,15 @@ class HolidaysController extends Controller
     public function showFavoriteHolidays(Request $request)
     {
         try {
-            $user = JWTAuth::parseToken()->authenticate()->id;
+            $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $exception) {
             return response()->json(['error' => 'holiday not found'], 404);
         }
-        $query = HolidaysUser::whereUserId($user);
+        $query = $user->favorites()->first();
         $total = $query->count();
         $holidays = $query->skip($request->skip)->take($request->take)->get();
 
-        return response()->json(compact('total', 'holidays'));
+        return response()->json(compact('total','holidays'));
     }
 
 }

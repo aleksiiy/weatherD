@@ -90,4 +90,35 @@ class UsersController extends Controller
 
         return response()->json(compact('settings'));
     }
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/user/settings",
+     *     summary="Seaac",
+     *     tags={"user"},
+     *     description="Setting user",
+     *     operationId="SettingUser",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function showSettings()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'holiday not found'], 404);
+        }
+
+        $query = $user->settings()->first();
+
+        return response()->json(compact('query'));
+    }
 }

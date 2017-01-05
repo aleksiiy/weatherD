@@ -39,6 +39,7 @@ class User extends Authenticatable
     }
 
     public function settings() {
+
         return $this->hasOne('App\Models\UserSettings');
     }
 
