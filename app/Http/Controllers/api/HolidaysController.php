@@ -63,7 +63,7 @@ class HolidaysController extends Controller
      *      @SWG\Parameter(
      *         name="category_id",
      *         in="path",
-     *         description="Device token",
+     *         description="Category id",
      *         required=true,
      *         type="string"
      *     ),
@@ -112,49 +112,49 @@ class HolidaysController extends Controller
      *     @SWG\Parameter(
      *         name="name",
      *         in="formData",
-     *         description="Device token",
+     *         description="Name holiday",
      *         required=true,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="description",
      *         in="formData",
-     *         description="Device token",
+     *         description="description",
      *         required=false,
      *         type="string"
      *     ),
      *      @SWG\Parameter(
      *         name="date",
      *         in="formData",
-     *         description="Device token",
+     *         description="Date (5-10)",
      *         required=true,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="date_color",
      *         in="formData",
-     *         description="Device token",
+     *         description="Only reserved color",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="name_color",
      *         in="formData",
-     *         description="Device token",
+     *         description="only reserved color",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="opacity",
      *         in="formData",
-     *         description="Device token",
+     *         description="only reserved number",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="image",
      *         in="formData",
-     *         description="Device token",
+     *         description="image file",
      *         required=false,
      *         type="file"
      *     ),
@@ -204,49 +204,49 @@ class HolidaysController extends Controller
      *     @SWG\Parameter(
      *         name="name",
      *         in="formData",
-     *         description="Device token",
+     *         description="Name holiday",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="description",
      *         in="formData",
-     *         description="Device token",
+     *         description="description",
      *         required=false,
      *         type="string"
      *     ),
      *      @SWG\Parameter(
      *         name="date",
      *         in="formData",
-     *         description="Device token",
+     *         description="date (5-10)",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="date_color",
      *         in="formData",
-     *         description="Device token",
+     *         description="only reserved color",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="name_color",
      *         in="formData",
-     *         description="Device token",
+     *         description="only reserved color",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="opacity",
      *         in="formData",
-     *         description="Device token",
+     *         description="only reserved number",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="image",
      *         in="formData",
-     *         description="Device token",
+     *         description="image file",
      *         required=false,
      *         type="file"
      *     ),
@@ -260,12 +260,10 @@ class HolidaysController extends Controller
 
     public function updateUserHoliday($id, Request $request)
     {
-        //$user - returns an array with information about the user
-        $user = JWTAuth::parseToken()->authenticate();
         try {
             $holiday = PrivateHoliday::findOrFail($id);
         } catch (Exception $exception) {
-            return response()->json(['error' => 'holiday not found'], 404);
+            return response()->json(['error' => 'User holiday not found'], 404);
         }
         $input = $request->except(['image']);
         /* image */
@@ -312,7 +310,7 @@ class HolidaysController extends Controller
         try {
             $holiday = PrivateHoliday::findOrFail($id);
         } catch (Exception $exception) {
-            return response()->json(['error' => 'holiday not found'], 404);
+            return response()->json(['error' => 'User holiday not found'], 404);
         }
         File::delete(public_path() . $holiday->image);
         $holiday->delete();
@@ -346,11 +344,10 @@ class HolidaysController extends Controller
 
     public function showPrivateHoliday($id)
     {
-        $user = JWTAuth::parseToken()->authenticate();
         try {
             $holiday = PrivateHoliday::findOrFail($id);
         } catch (Exception $exception) {
-            return response()->json(['error' => 'holiday not found'], 404);
+            return response()->json(['error' => 'User holiday not found'], 404);
         }
 
         return response()->json(compact('holiday'));
@@ -369,7 +366,7 @@ class HolidaysController extends Controller
      *     @SWG\Parameter(
      *         name="id",
      *         in="path",
-     *         description="Delet id",
+     *         description="id holiday",
      *         required=true,
      *         type="string"
      *     ),
@@ -383,12 +380,15 @@ class HolidaysController extends Controller
 
     public function Holiday($id)
     {
-
-        $user = JWTAuth::parseToken()->authenticate();
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
         try {
             $holiday = Holiday::findOrFail($id);
         } catch (Exception $exception) {
-            return response()->json(['error' => 'holiday not found'], 404);
+            return response()->json(['error' => 'Holiday not found'], 404);
         }
         $favorites = $user->favorites()->pluck('holiday_id')->toArray();
         $holiday->favorite = in_array($id, $favorites);
@@ -424,7 +424,6 @@ class HolidaysController extends Controller
 
     public function addToFavorite($id)
     {
-        //$user - returns an array with information about the user
         $user = JWTAuth::parseToken()->authenticate();
         HolidaysUser::create(['user_id' => $user->id, 'holiday_id' => $id]);
         $favorites = HolidaysUser::all();
@@ -676,7 +675,7 @@ class HolidaysController extends Controller
         try {
             $user = JWTAuth::parseToken()->authenticate()->id;
         } catch (Exception $exception) {
-            return response()->json(['error' => 'holiday not found'], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
         $query = PrivateHoliday::whereUserId($user);
         $total = $query->count();
@@ -723,13 +722,13 @@ class HolidaysController extends Controller
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $exception) {
-            return response()->json(['error' => 'holiday not found'], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
         $query = $user->favorites()->first();
         $total = $query->count();
         $holidays = $query->skip($request->skip)->take($request->take)->get();
 
-        return response()->json(compact('total','holidays'));
+        return response()->json(compact('total', 'holidays'));
     }
 
 }

@@ -53,7 +53,7 @@ class HolidayController extends Controller
         try {
             $holiday = Holiday::findOrFail($id);
         } catch (Exception $exception) {
-            return response()->json(['error' => 'holiday not found'], 404);
+            return response()->json(['error' => 'the holiday that you want to edit are not found'], 404);
         }
         $input = $request->except(['image']);
         /* image */
@@ -71,7 +71,11 @@ class HolidayController extends Controller
 
     public function destroyHoliday($id)
     {
-        Holiday::whereId($id)->delete();
+        try {
+            Holiday::whereId($id)->delete();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'holiday you want to delete is not found'], 404);
+        }
         return redirect('admin/show');
     }
 }
