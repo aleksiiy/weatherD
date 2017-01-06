@@ -9,6 +9,7 @@ use App\Models\PrivateHoliday;
 use App\User;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Input;
@@ -71,7 +72,7 @@ class HolidaysController extends Controller
      *     @SWG\Parameter(
      *         name="skip",
      *         in="query",
-     *         description="Device token",
+     *         description="skip",
      *         required=true,
      *         type="integer"
      *     ),
@@ -99,6 +100,7 @@ class HolidaysController extends Controller
 
         return response()->json(compact('total', 'holidays'));
     }
+
     /**
      * @SWG\Get(
      *     path="/api/v1/holidays/colors",
@@ -108,7 +110,6 @@ class HolidaysController extends Controller
      *     operationId="ShowColor",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
-
      *
      *     @SWG\Response(
      *         response="200",
@@ -250,7 +251,7 @@ class HolidaysController extends Controller
      *         name="date",
      *         in="formData",
      *         description="date (5-10)",
-     *         required=false,
+     *         required=true,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
@@ -456,7 +457,15 @@ class HolidaysController extends Controller
     public function addToFavorite($id)
     {
         $user = JWTAuth::parseToken()->authenticate();
-        HolidaysUser::create(['user_id' => $user->id, 'holiday_id' => $id]);
+        if ((Holiday::whereId($id)->first()) !== null) {
+            if ((HolidaysUser::whereHolidayId($id)->first()) == null) {
+                HolidaysUser::create(['user_id' => $user->id, 'holiday_id' => $id]);
+            } else {
+                return response()->json('He\'s already added');
+            }
+        } else {
+            return response()->json('Record is absent');
+        }
         $favorites = HolidaysUser::all();
         return response()->json(compact('favorites'));
     }
@@ -488,8 +497,14 @@ class HolidaysController extends Controller
 
     public function destroy($id)
     {
-        $destroy = HolidaysUser::whereHolidayId($id);
-        $destroy->delete();
+        if ((HolidaysUser::whereHolidayId($id)->first()) !== null)
+        {
+            $destroy = HolidaysUser::whereHolidayId($id);
+            $destroy->delete();
+        }else{
+            return response()->json('Record is absent');
+        }
+
         return response()->json(true, 200);
     }
 
@@ -574,7 +589,11 @@ class HolidaysController extends Controller
         $now->year = Holiday::DEFAULT_YEAR;
         $now->format('Y-d-m');
         $query = Holiday::whereBetween('date', [$now, $dateInMonth]);
-        $total = $query->count();
+        try {
+            $total = $query->count();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'A list with holidays blank'], 404);
+        }
         $holidays = $query->orderBy('date', 'asc')->skip($request->skip)->take($request->take)->get();
         return response()->json(compact('total', 'holidays'));
     }
@@ -612,7 +631,11 @@ class HolidaysController extends Controller
         $dateStart = Carbon::createFromDate(1970, $month)->startOfMonth();
         $dateEnd = Carbon::createFromDate(1970, $month)->endOfMonth();
         $query = Holiday::whereBetween('date', [$dateStart, $dateEnd]);
-        $total = $query->count();
+        try {
+            $total = $query->count();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'A list with holidays blank'], 404);
+        }
         $holidays = $query->orderBy('date', 'asc')->get();
 
         return response()->json(compact('total', 'holidays'));
@@ -662,7 +685,11 @@ class HolidaysController extends Controller
     {
         $search = $request->q;
         $query = Holiday::where('name_ru', 'like', '%' . $search . '%');
-        $total = $query->count();
+        try {
+            $total = $query->count();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'list is empty'], 404);
+        }
         $holidays = $query->orderBy('date', 'asc')->skip($request->skip)->take($request->take)->get();
 
         return response()->json(compact('total', 'holidays'));
@@ -709,7 +736,11 @@ class HolidaysController extends Controller
             return response()->json(['error' => 'User not found'], 404);
         }
         $query = PrivateHoliday::whereUserId($user);
-        $total = $query->count();
+        try {
+            $total = $query->count();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'A list with holidays blank'], 404);
+        }
         $holidays = $query->skip($request->skip)->take($request->take)->get();
 
         return response()->json(compact('total', 'holidays'));
