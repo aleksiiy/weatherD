@@ -71,8 +71,10 @@ class UsersController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
         $categories = [];
-        foreach($request->get('categories') as $item) {
-            array_push($categories, intval($item));
+        if (count($request->get('categories')) > 0) {
+            foreach ($request->get('categories') as $item) {
+                array_push($categories, intval($item));
+            }
         }
         $input = [
             'active'     => boolval($request->get('active')),
@@ -117,8 +119,8 @@ class UsersController extends Controller
             return response()->json(['error' => 'holiday not found'], 404);
         }
 
-        $query = $user->settings()->first();
+        $settings = $user->settings()->first();
 
-        return response()->json(compact('query'));
+        return response()->json(compact('settings'));
     }
 }

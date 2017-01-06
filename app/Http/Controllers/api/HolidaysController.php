@@ -101,7 +101,7 @@ class HolidaysController extends Controller
     }
     /**
      * @SWG\Get(
-     *     path="/api/v1/holidays/showColor",
+     *     path="/api/v1/holidays/colors",
      *     summary="Holiday delete",
      *     tags={"holidays"},
      *     description="Show color",

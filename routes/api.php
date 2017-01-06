@@ -21,7 +21,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
     Route::get('categories', 'HolidaysController@categories');
     Route::get('categories/{category_id}', 'HolidaysController@categoryHolidays');
 
-    Route::get('holidays/showColor', 'HolidaysController@getColors');
+    Route::get('holidays/colors', 'HolidaysController@getColors');
     Route::post('holidays_user/create', 'HolidaysController@createUserHoliday');
     Route::delete('holidays_user/delete/{id}', 'HolidaysController@deleteUserHoliday');
     Route::post('holidays_user/update/{id}', 'HolidaysController@updateUserHoliday');
