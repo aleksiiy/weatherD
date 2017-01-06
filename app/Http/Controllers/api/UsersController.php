@@ -120,6 +120,17 @@ class UsersController extends Controller
         }
 
         $settings = $user->settings()->first();
+        if (is_null($settings)) {
+            $settings = new UserSettings([
+                'active'     => true,
+                'categories' => [1, 2, 3, 4, 5],
+                'private'    => true,
+                'favorite'   => true,
+                'time'       => 1
+            ]);
+
+            $user->settings()->save($settings);
+        }
 
         return response()->json(compact('settings'));
     }
