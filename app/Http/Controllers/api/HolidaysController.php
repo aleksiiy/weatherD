@@ -755,7 +755,7 @@ class HolidaysController extends Controller
         } catch (Exception $exception) {
             return response()->json(['error' => 'User not found'], 404);
         }
-        $query = $user->favorites()->first();
+        $query = $user->favorites();
         $total = $query->count();
         $holidays = $query->skip($request->skip)->take($request->take)->get();
 
