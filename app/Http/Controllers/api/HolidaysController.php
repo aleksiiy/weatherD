@@ -99,6 +99,36 @@ class HolidaysController extends Controller
 
         return response()->json(compact('total', 'holidays'));
     }
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays/showColor",
+     *     summary="Holiday delete",
+     *     tags={"holidays"},
+     *     description="Show color",
+     *     operationId="ShowColor",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+    public function getColors()
+    {
+        $colors = [
+            '#000000',
+            '#ffffff',
+            '#929292',
+            '#ff0000',
+            '#a1d623',
+            '#20b1f5',
+        ];
+        return response()->json(compact('colors'));
+    }
 
     /**
      * @SWG\Post(
@@ -165,6 +195,7 @@ class HolidaysController extends Controller
      * )
      *
      */
+
     public function createUserHoliday(Request $request)
     {
         $user = JWTAuth::parseToken()->authenticate();
