@@ -10,7 +10,10 @@ class UserSettings extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'categories' => 'array'
+        'categories' => 'array',
+        'active' => 'boolean',
+        'private' => 'boolean',
+        'favorite' => 'boolean'
     ];
 
     public function user()

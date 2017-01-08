@@ -77,9 +77,9 @@ class UsersController extends Controller
             }
         }
         $input = [
-            'active'     => boolval($request->get('active')),
-            'private'    => boolval($request->get('private')),
-            'favorite'   => boolval($request->get('favorite')),
+            'active'     => filter_var($request->get('active'), FILTER_VALIDATE_BOOLEAN),
+            'private'    => filter_var($request->get('private'), FILTER_VALIDATE_BOOLEAN),
+            'favorite'   => filter_var($request->get('favorite'), FILTER_VALIDATE_BOOLEAN),
             'time'       => intval($request->get('time')),
             'categories' => $categories
         ];
@@ -119,8 +119,7 @@ class UsersController extends Controller
             return response()->json(['error' => 'holiday not found'], 404);
         }
 
-        $settings = $user->settings()->first();
-        if (is_null($settings)) {
+        if (!($settings = $user->settings()->first())) {
             $settings = new UserSettings([
                 'active'     => true,
                 'categories' => [1, 2, 3, 4, 5],
