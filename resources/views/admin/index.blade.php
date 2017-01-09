@@ -25,7 +25,6 @@
     <link href="{{ url('/master/css/jquery.navobile.css') }}" rel="stylesheet">
     <link href="{{ url('/master/css/normalize.css') }}" rel="stylesheet">
     <link href="{{ url('/master/css/style.css') }}" rel="stylesheet">
-    <link href="{{ url('/master/css/holiday.css') }}" rel="stylesheet">
     <link href="{{ url('/css/app.css') }}" rel="stylesheet">
     <link href="{{ url('/master/css/switchery.min.css') }}" rel="stylesheet">
     @yield('styles')
