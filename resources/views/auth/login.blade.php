@@ -56,10 +56,6 @@
                             </div>
                             <div class="form-group"><input class="btn btn-brand" type="submit" value="Sign in"></div>
                         </form>
-                        <div class="text-center">
-                            <a href="http://a2-lab.com">Need help?</a>
-                        </div>
-
                     </div>
                 </div>
             </div>
