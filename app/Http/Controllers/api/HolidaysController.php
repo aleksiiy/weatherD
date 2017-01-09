@@ -472,11 +472,11 @@ class HolidaysController extends Controller
 
     /**
      * @SWG\Delete(
-     *     path="/api/v1/holidays/destroy/{id}",
-     *     summary="Holiday delete",
+     *     path="/api/v1/holidays/favorite/{id}",
+     *     summary="Favorite delete",
      *     tags={"holidays"},
-     *     description="Holiday delete",
-     *     operationId="holidayDelete",
+     *     description="Favorite delete",
+     *     operationId="FavoriteDelete",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
      *

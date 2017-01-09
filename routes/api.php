@@ -30,7 +30,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
 
     Route::get('holiday/{id}', 'HolidaysController@Holiday');
     Route::post('holidays/favorite/{id}', 'HolidaysController@addToFavorite');
-    Route::delete('holidays/destroy/{id}', 'HolidaysController@destroy');
+    Route::delete('holidays/favorite/{id}', 'HolidaysController@destroy');
     Route::get('holidays/random/{skip}', 'HolidaysController@showRandomHoliday');
 
     Route::get('holidays/near', 'HolidaysController@nearHolidays');
