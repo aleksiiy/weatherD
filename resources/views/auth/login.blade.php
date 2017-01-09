@@ -32,7 +32,9 @@
         <div class="login-container">
             <div class="content">
                 <div class="panel panel-default login-form">
-                    <div class="logo"><a href="{{ url('/login') }}">Holidays</a></div>
+                    <div class="logo">
+                        <a href="{{ url('/login') }}">Holidays</a>
+                    </div>
                     <div class="panel-body">
                         <form role="form" method="POST" action="{{ url('/login') }}">
                             {!! csrf_field() !!}
