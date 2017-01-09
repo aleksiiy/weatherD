@@ -9,8 +9,8 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>Категория</th>
-                    <th class="setting">Инструменты</th>
+                    <th><b>Категория</b></th>
+                    <th class="setting"><b>Инструменты</b></th>
                 </tr>
                 </thead>
                 <tbody>

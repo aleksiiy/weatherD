@@ -10,9 +10,9 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>Картинка</th>
-                    <th>Название праздника</th>
-                    <th class="setting">Инструменты</th>
+                    <th><b>Картинка</b></th>
+                    <th><b>Название праздника</b></th>
+                    <th class="setting"><b>Инструменты</b></th>
                 </tr>
                 </thead>
                 <tbody>
