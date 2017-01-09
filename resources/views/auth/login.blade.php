@@ -1,68 +1,59 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{!! csrf_token() !!}" />
+    <!-- Styles -->
+    <link href="{{ url('master/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url('master/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url('master/css/jquery.navobile.css') }}" rel="stylesheet">
+    <link href="{{ url('master/css/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ url('master/css/check.css') }}" rel="stylesheet">
+    <link href="{{ url('master/css/switchery.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url('master/css/chosen.css') }}" rel="stylesheet"/>
+    <link href="{{ url('master/css/jquery.jgrowl.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url('master/css/style.css') }}" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="{{ url('master/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url('master/js/bootstrap-filestyle.min.js') }}"> </script>
+    <script src="{{ url('master/js/jquery.navobile.min.js') }}"></script>
+    <script src="{{ url('master/js/switchery.min.js') }}"></script>
+    <script src="{{ url('master/js/chosen.jquery.min.js') }}"></script>
+    <script src="{{ url('master/js/jquery.jgrowl.min.js') }}"></script>
+    <script src="{{ url('master/js/app.js') }}"></script>
+</head>
+<body>
+<div class="page-container">
+    <div class="content-container">
+        <div class="login-container">
+            <div class="content">
+                <div class="panel panel-default login-form">
+                    <div class="logo"><a href="">Cantex</a></div>
+                    <div class="form-group">
+                        <div class="alert danger">The username or password you entered is incorrect</div>
+                    </div>
+                    <div class="panel-body">
+                        <form method="POST">
+                            <div class="form-group"><input class="form-control" type="text" name="email" placeholder="E-mail"></div>
+                            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+                            <div class="form-group"><input class="btn btn-brand" type="submit" value="Sign in"></div>
+                            <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                        </form>
+                        <div class="text-center">
+                            <a target="_blank" href="http://a2-lab.com">Need help?</a>
                         </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">
-                                    Forgot Your Password?
-                                </a>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection
+<footer>
+    © 2015 <a href="">admin panel</a>
+</footer>
+</body>
+</html>
