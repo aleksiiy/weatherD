@@ -1182,3 +1182,13 @@ html::-webkit-scrollbar-thumb:active,
 .fixed-table-body {
 	height: auto;
 }
+.logo_pointer{
+	text-align: center;
+	position: relative;
+	line-height: 1;
+	padding: 10px 5px;
+	color: #00BFA5;
+	font-size: 35px;
+	text-decoration: none;
+	display: block;
+}

@@ -58,7 +58,7 @@
     </header><!-- .header-->
 
     <nav class="left-sidebar">
-        <div class="logo"><a href="/home">Праздники</a></div>
+        <div><p class="logo_pointer">Праздники</p></div>
         <ul>
             <li class={{ Request::segment(2) == '' ? "active" : "" }}>
                 <a href="/home"><i class="fa fa-info fa-2x"></i><span>Общая информация</span></a></li>
