@@ -59,6 +59,9 @@
                         <div class="text-center">
                             <a href={{ url('/password/reset') }}>Forgot your password?</a>
                         </div>
+                        <div class="text-center">
+                            <a href="http://a2-lab.com">Need help?</a>
+                        </div>
                     </div>
                 </div>
             </div>
