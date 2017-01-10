@@ -751,7 +751,7 @@ class HolidaysController extends Controller
     public function showHolidays(Request $request)
     {
         try {
-            $user = JWTAuth::parseToken()->authenticate()->id;
+            $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $exception) {
             return response()->json(['error' => 'User not found'], 404);
         }
