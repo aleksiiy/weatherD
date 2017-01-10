@@ -45,11 +45,8 @@
 
         <div class="box_form">
             <div class="form-group">
-                {!! Form::label(trans('labels.task_type'), '', array('class'=>'col-sm-2 control-label')) !!}
-                <div class="col-sm-10">
-                    <input type="checkbox" class="js-switch" name="task_type" value="{!! $post->task_type !!}"
-                           {!! $post->task_type == 1 ? "checked" : "" !!} @if(!$status) readonly @endif>
-                </div>
+                {!! Form::label('Плавающая дата', '') !!}
+                <input type="checkbox" class="js-switch" name="floating" @if($holiday->floating) checked="checked" @endif>
             </div>
             <div class="form-group">
                 <div class='input-group date'>

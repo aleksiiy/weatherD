@@ -22,7 +22,7 @@ class HolidayController extends Controller
 
     public function save($id, Request $request)
     {
-        $input = $request->except(['image']);
+        $input = $request->except(['image', 'floating']);
         if ($image = $request->file('image')) {
             $dir = Holiday::IMAGE_FOLDER;
             $filename = uniqid() . '.' . $image->getClientOriginalExtension();
@@ -30,6 +30,7 @@ class HolidayController extends Controller
             $image->move(public_path() . $dir, $filename);
             $input = array_merge($input, ['image' => $filename]);
         }
+        $input = array_merge($input, ['floating' => !is_null($request->floating) ? true : false]);
         $holiday = new Holiday($input);
         $category = Category::findOrFail($id);
         $category->holidays()->save($holiday);
@@ -56,7 +57,7 @@ class HolidayController extends Controller
         } catch (Exception $exception) {
             return response()->json(['error' => 'the holiday that you want to edit are not found'], 404);
         }
-        $input = $request->except(['image']);
+        $input = $request->except(['image', 'floating']);
         /* image */
         if ($image = $request->file('image')) {
             $dir = Holiday::IMAGE_FOLDER;
@@ -66,6 +67,7 @@ class HolidayController extends Controller
             $image->move(public_path() . $dir, $filename);
             $input = array_merge($input, ['image' => $filename]);
         }
+        $input = array_merge($input, ['floating' => !is_null($request->floating) ? true : false]);
         $holiday->update($input);
         return redirect('admin/show');
     }

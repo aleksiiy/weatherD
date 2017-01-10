@@ -52,7 +52,7 @@ class SendHolidayNotifications extends Command
 //            return;
 //        }
         $notifyDay = $tomorrow->year(1970)->format('Y-m-d');
-        $events = Holiday::where('date', $notifyDay)->get();
+        $events = Holiday::where('date', $notifyDay)->where('floating', '=', 0)->get();
         $users = User::join('usersettings', 'usersettings.user_id', '=', 'users.id')
             ->where('usersettings.active', true)
             ->whereNotNull('users.push_token')

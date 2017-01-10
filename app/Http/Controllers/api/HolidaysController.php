@@ -9,6 +9,7 @@ use App\Models\PrivateHoliday;
 use App\User;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -527,7 +528,8 @@ class HolidaysController extends Controller
 
     public function destroy($id)
     {
-        if ($holiday = HolidaysUser::find($id)) {
+        if ($holiday = HolidaysUser::whereHolidayId($id)->first()) {
+            $holiday = HolidaysUser::whereHolidayId($id);
             $holiday->delete();
         } else {
             return response()->json(['error' => 'Holiday not found'], 404);
@@ -578,27 +580,13 @@ class HolidaysController extends Controller
     /**
      * @SWG\Get(
      *     path="/api/v1/holidays/near",
-     *     summary="Random Holiday",
+     *     summary="Near Holidays",
      *     tags={"holidays"},
-     *     description="Random holiday",
-     *     operationId="RandomHoliday",
+     *     description="Near holidays",
+     *     operationId="NearHoliday",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
      *
-     *     @SWG\Parameter(
-     *         name="skip",
-     *         in="query",
-     *         description="Skip random holiday",
-     *         required=true,
-     *         type="integer"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="take",
-     *         in="query",
-     *         description="Take",
-     *         required=true,
-     *         type="integer"
-     *     ),
      *
      *     @SWG\Response(
      *         response="200",
@@ -610,17 +598,26 @@ class HolidaysController extends Controller
 
     public function nearHolidays(Request $request)
     {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
         $dateInMonth = Carbon::now()->addMonth();
         $dateInMonth->year = Holiday::DEFAULT_YEAR;
         $dateInMonth->format('Y-d-m');
         $now = Carbon::now();
         $now->year = Holiday::DEFAULT_YEAR;
         $now->format('Y-d-m');
-        $query = Holiday::whereBetween('date', [$now, $dateInMonth]);
-
-        $total = $query->count();
-        $holidays = $query->orderBy('date', 'asc')->skip($request->skip)->take($request->take)->get();
-        return response()->json(compact('total', 'holidays'));
+        $publicHolidays = Holiday::whereBetween('date', [$now, $dateInMonth])->orderBy('date', 'asc')->get();
+        $privateHolidays = $user->holidays()->whereBetween('date', [$now, $dateInMonth])->orderBy('date', 'asc')->get();
+        $unsortedHolidays = new Collection();
+        $unsortedHolidays = $unsortedHolidays->merge($publicHolidays);
+        foreach ($privateHolidays as $holiday) {
+            $unsortedHolidays->push($holiday);
+        }
+        $holidays = $unsortedHolidays->sortBy('original_date')->values();
+        return response()->json(compact('holidays'));
     }
 
 
@@ -652,15 +649,25 @@ class HolidaysController extends Controller
 
     public function monthHolidays(Request $request)
     {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
         $month = $request->month;
         $dateStart = Carbon::createFromDate(1970, $month)->startOfMonth();
         $dateEnd = Carbon::createFromDate(1970, $month)->endOfMonth();
-        $query = Holiday::whereBetween('date', [$dateStart, $dateEnd]);
 
-        $total = $query->count();
-        $holidays = $query->orderBy('date', 'asc')->get();
+        $publicHolidays = Holiday::whereBetween('date', [$dateStart, $dateEnd])->orderBy('date', 'asc')->get();
+        $privateHolidays = $user->holidays()->whereBetween('date', [$dateStart, $dateEnd])->orderBy('date', 'asc')->get();
+        $unsortedHolidays = new Collection();
+        $unsortedHolidays = $unsortedHolidays->merge($publicHolidays);
+        foreach ($privateHolidays as $holiday) {
+            $unsortedHolidays->push($holiday);
+        }
+        $holidays = $unsortedHolidays->sortBy('original_date')->values();
 
-        return response()->json(compact('total', 'holidays'));
+        return response()->json(compact('holidays'));
     }
 
     /**
