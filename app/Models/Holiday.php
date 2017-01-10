@@ -31,7 +31,7 @@ class Holiday extends Model
 
     public function getImageUrlAttribute()
     {
-        $path = $this->getAttribute('image') ? asset($this->getAttribute('image')) : null;
+        $path = $this->getAttribute('image') ? asset(self::IMAGE_FOLDER . $this->getAttribute('image')) : null;
         return $path;
     }
 

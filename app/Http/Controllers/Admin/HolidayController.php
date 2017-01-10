@@ -24,7 +24,7 @@ class HolidayController extends Controller
         $input = $request->except(['image']);
         if ($image = $request->file('image')) {
             $dir = Holiday::IMAGE_FOLDER;
-            $filename = $dir . uniqid() . '.' . $image->getClientOriginalExtension();
+            $filename =  uniqid() . '.' . $image->getClientOriginalExtension();
 
             $image->move(public_path() . $dir, $filename);
             $input = array_merge($input, ['image' => $filename]);
@@ -60,7 +60,7 @@ class HolidayController extends Controller
         if ($image = $request->file('image')) {
             $dir = Holiday::IMAGE_FOLDER;
             File::delete(public_path() . $dir . $holiday->image);
-            $filename = $dir . uniqid() . '.' . $image->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
 
             $image->move(public_path() . $dir, $filename);
             $input = array_merge($input, ['image' => $filename]);
