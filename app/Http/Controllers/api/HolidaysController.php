@@ -214,7 +214,7 @@ class HolidaysController extends Controller
     public function createUserHoliday(Request $request)
     {
         $user = JWTAuth::parseToken()->authenticate();
-        $input = $request->except(['image']);
+        $input = $request->except(['image', 'floating']);
         /* image */
         if ($image = $request->file('image')) {
             $dir = PrivateHoliday::IMAGE_FOLDER;
@@ -223,6 +223,7 @@ class HolidaysController extends Controller
             $image->move(public_path() . $dir, $filename);
             $input = array_merge($input, ['image' => $filename]);
         }
+        $input = array_merge($input, ['floating' => filter_var($request->get('floating'), FILTER_VALIDATE_BOOLEAN)]);
         $holiday = new PrivateHoliday($input);
         $user->holidays()->save($holiday);
         $holiday = PrivateHoliday::findOrFail($holiday->id);
@@ -325,7 +326,7 @@ class HolidaysController extends Controller
         } catch (Exception $exception) {
             return response()->json(['error' => 'User holiday not found'], 404);
         }
-        $input = $request->except(['image']);
+        $input = $request->except(['image', 'floating']);
 
         if ($image = $request->file('image')) {
             $dir = PrivateHoliday::IMAGE_FOLDER;
@@ -335,6 +336,7 @@ class HolidaysController extends Controller
             $image->move(public_path() . $dir, $filename);
             $input = array_merge($input, ['image' => $filename]);
         }
+        $input = array_merge($input, ['floating' => filter_var($request->get('floating'), FILTER_VALIDATE_BOOLEAN)]);
         $holiday->update($input);
         $holiday = PrivateHoliday::findOrFail($holiday->id);
 
@@ -492,7 +494,7 @@ class HolidaysController extends Controller
                 return response()->json(['Holiday has been already added to favorites'], 404);
             }
         } else {
-            return response()->json(['Holiday not found'],404);
+            return response()->json(['Holiday not found'], 404);
         }
         $favorites = HolidaysUser::all();
         return response()->json(compact('favorites'));

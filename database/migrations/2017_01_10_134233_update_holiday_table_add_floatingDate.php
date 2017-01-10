@@ -15,11 +15,11 @@ class UpdateHolidayTableAddFloatingDate extends Migration
     {
         Schema::table('holidays', function (Blueprint $table) {
             $table->boolean('floating')->default(false)->after('description_kz');
-            $table->date('date_to')->nullable();
+            $table->date('date_to')->nullable()->after('floating');
         });
         Schema::table('private_holidays', function (Blueprint $table) {
             $table->boolean('floating')->default(false)->after('description');
-            $table->date('date_to')->nullable();
+            $table->date('date_to')->nullable()->after('floating');
         });
     }
 

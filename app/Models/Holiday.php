@@ -50,12 +50,12 @@ class Holiday extends Model
 
     public function getDateToAttribute($date_to)
     {
-        return $date_to ? Carbon::createFromFormat('Y-m-d', $date_to)->format('m-d') : null;
+        return isset($date_to) ? Carbon::createFromFormat('Y-m-d', $date_to)->format('m-d') : null;
     }
 
     public function setDateToAttribute($date_to)
     {
-        if ($date_to) {
+        if (isset($date_to)) {
             $currentYearDate = Carbon::createFromFormat('m-d', $date_to);
             $currentYearDate->year = self::DEFAULT_YEAR;
             $currentYearDate->format('Y-m-d');

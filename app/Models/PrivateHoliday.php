@@ -36,4 +36,19 @@ class PrivateHoliday extends Model
         $currentYearDate->format('Y-m-d');
         $this->attributes['date'] = $currentYearDate;
     }
+
+    public function getDateToAttribute($date_to)
+    {
+        return isset($date_to) ? Carbon::createFromFormat('Y-m-d', $date_to)->format('m-d') : null;
+    }
+
+    public function setDateToAttribute($date_to)
+    {
+        if (isset($date_to)) {
+            $currentYearDate = Carbon::createFromFormat('m-d', $date_to);
+            $currentYearDate->year = self::DEFAULT_YEAR;
+            $currentYearDate->format('Y-m-d');
+        }
+        $this->attributes['date_to'] = $date_to ? $currentYearDate : null;
+    }
 }

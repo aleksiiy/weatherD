@@ -79,6 +79,8 @@
 <!--<script src="js/modernizer.min.js"></script>-->
 <script src="{{ url('/master/js/jquery.navobile.min.js') }}"></script>
 <script src="{{ url('/master/js/app.js') }}"></script>
+<script src="{{ url('/master/js/switchery.min.js') }}"></script>
+<script src="{{ url('/js/main.js') }}"></script>
 
 @yield('scripts')
 </body>

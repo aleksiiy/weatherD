@@ -39,8 +39,11 @@
                 </div>
             </div>
         </div>
-
         <div class="box_form">
+            <div class="form-group">
+                {!! Form::label('Плавающая дата', '') !!}
+                <input type="checkbox" class="js-switch" name="floating">
+            </div>
             <div class="form-group">
                 <div class='input-group date'>
                     <input type='text' required name="date" class="form-control"/>
@@ -51,7 +54,7 @@
             </div>
             <div class="form-group">
                 <div class='input-group date'>
-                    <input type='text'  name="date_to" class="form-control"/>
+                    <input type='text' name="date_to" class="form-control"/>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>

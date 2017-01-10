@@ -45,6 +45,13 @@
 
         <div class="box_form">
             <div class="form-group">
+                {!! Form::label(trans('labels.task_type'), '', array('class'=>'col-sm-2 control-label')) !!}
+                <div class="col-sm-10">
+                    <input type="checkbox" class="js-switch" name="task_type" value="{!! $post->task_type !!}"
+                           {!! $post->task_type == 1 ? "checked" : "" !!} @if(!$status) readonly @endif>
+                </div>
+            </div>
+            <div class="form-group">
                 <div class='input-group date'>
                     <input type='text' required name="date" value="{{ $holiday->date }}" class="form-control"/>
                     <span class="input-group-addon">
