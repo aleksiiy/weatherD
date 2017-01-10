@@ -83,8 +83,8 @@ class SendHolidayNotifications extends Command
                 $privateEvents = $user->holidays()->where('date', $notifyDay)->get();
             }
             $notifyEvents = [
-                'holidays'        => $adminEvents->toJson(),
-                'privateHolidays' => $privateEvents->toJson()
+                'holidays'        => $adminEvents,
+                'privateHolidays' => $privateEvents
             ];
             dispatch(new SendNotificationOfHolidays($user, $notifyEvents));
         }
