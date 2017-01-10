@@ -84,9 +84,7 @@ class HolidayController extends Controller
 
     public function sendPush()
     {
-        Artisan::command('send:holidays', function () {
-
-        });
+        Artisan::call('send:holidays');
 
         return response('Push motification command has been executed');
     }
