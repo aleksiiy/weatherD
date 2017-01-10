@@ -29,6 +29,13 @@ class AuthController extends Controller
      *         required=true,
      *         type="string"
      *     ),
+     *     @SWG\Parameter(
+     *         name="push_token",
+     *         in="formData",
+     *         description="Push token",
+     *         required=true,
+     *         type="string"
+     *     ),
      *     @SWG\Response(
      *         response="200",
      *         description="Successful operation",
@@ -47,18 +54,19 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $device_token = $request->device_token;
+        $push_token = $request->push_token;
         if (User::whereDeviceToken($device_token)->exists()) {
             $user = User::whereDeviceToken($device_token)->first();
         } else {
-            $user = User::create(['device_token' => $device_token]);
+            $user = User::create(['device_token' => $device_token, 'push_token' => $push_token]);
         }
         if (is_null($user->settings)) {
             $settings = new UserSettings([
-                'active'     => true,
+                'active' => true,
                 'categories' => [1, 2, 3, 4, 5],
-                'private'    => true,
-                'favorite'   => true,
-                'time'       => 1
+                'private' => true,
+                'favorite' => true,
+                'time' => 1
             ]);
             $user->settings()->save($settings);
         }

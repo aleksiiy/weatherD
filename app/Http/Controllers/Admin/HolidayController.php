@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Holiday;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 
@@ -24,7 +25,7 @@ class HolidayController extends Controller
         $input = $request->except(['image']);
         if ($image = $request->file('image')) {
             $dir = Holiday::IMAGE_FOLDER;
-            $filename =  uniqid() . '.' . $image->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
 
             $image->move(public_path() . $dir, $filename);
             $input = array_merge($input, ['image' => $filename]);
@@ -77,5 +78,14 @@ class HolidayController extends Controller
             return response()->json(['error' => 'holiday you want to delete is not found'], 404);
         }
         return redirect('admin/show');
+    }
+
+    public function sendPush()
+    {
+        Artisan::command('send:holidays', function () {
+
+        });
+
+        return response('Push motification command has been executed');
     }
 }

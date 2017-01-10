@@ -104,10 +104,10 @@ class HolidaysController extends Controller
     /**
      * @SWG\Get(
      *     path="/api/v1/holidays/colors",
-     *     summary="Holiday delete",
+     *     summary="Holiday colors",
      *     tags={"holidays"},
-     *     description="Show color",
-     *     operationId="ShowColor",
+     *     description="Show colors",
+     *     operationId="ShowColors",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
      *
@@ -154,11 +154,25 @@ class HolidaysController extends Controller
      *         required=false,
      *         type="string"
      *     ),
+     *     @SWG\Parameter(
+     *         name="floating",
+     *         in="formData",
+     *         description="On/Off floating date",
+     *         required=true,
+     *         type="boolean"
+     *     ),
      *      @SWG\Parameter(
      *         name="date",
      *         in="formData",
-     *         description="Date (5-10)",
+     *         description="Date (05-10)",
      *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="date_to",
+     *         in="formData",
+     *         description="Date_to (05-10)",
+     *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
@@ -247,11 +261,25 @@ class HolidaysController extends Controller
      *         required=false,
      *         type="string"
      *     ),
-     *      @SWG\Parameter(
+     *     @SWG\Parameter(
+     *         name="floating",
+     *         in="formData",
+     *         description="On/Off floating date",
+     *         required=true,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Parameter(
      *         name="date",
      *         in="formData",
-     *         description="date (5-10)",
+     *         description="Date (05-10)",
      *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="date_to",
+     *         in="formData",
+     *         description="Date_to (05-10)",
+     *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
@@ -342,7 +370,7 @@ class HolidaysController extends Controller
         try {
             $holiday = PrivateHoliday::findOrFail($id);
         } catch (Exception $exception) {
-            return response()->json(['error' => 'User holiday not found'], 404);
+            return response()->json(['error' => 'Holiday not found'], 404);
         }
         File::delete(public_path() . $holiday->image);
         $holiday->delete();
@@ -379,7 +407,7 @@ class HolidaysController extends Controller
         try {
             $holiday = PrivateHoliday::findOrFail($id);
         } catch (Exception $exception) {
-            return response()->json(['error' => 'User holiday not found'], 404);
+            return response()->json(['error' => 'Holiday not found'], 404);
         }
 
         return response()->json(compact('holiday'));
@@ -461,10 +489,10 @@ class HolidaysController extends Controller
             if ((HolidaysUser::whereHolidayId($id)->first()) == null) {
                 HolidaysUser::create(['user_id' => $user->id, 'holiday_id' => $id]);
             } else {
-                return response()->json('Holiday has been already added to favorites');
+                return response()->json(['Holiday has been already added to favorites'], 404);
             }
         } else {
-            return response()->json('Holiday not found');
+            return response()->json(['Holiday not found'],404);
         }
         $favorites = HolidaysUser::all();
         return response()->json(compact('favorites'));
@@ -497,11 +525,10 @@ class HolidaysController extends Controller
 
     public function destroy($id)
     {
-        if ((HolidaysUser::whereHolidayId($id)->first()) !== null) {
-            $destroy = HolidaysUser::whereHolidayId($id);
-            $destroy->delete();
+        if ($holiday = HolidaysUser::find($id)) {
+            $holiday->delete();
         } else {
-            return response()->json('Record is absent');
+            return response()->json(['error' => 'Holiday not found'], 404);
         }
 
         return response()->json(true, 200);
@@ -726,12 +753,8 @@ class HolidaysController extends Controller
         } catch (Exception $exception) {
             return response()->json(['error' => 'User not found'], 404);
         }
-        $query = PrivateHoliday::whereUserId($user);
-        try {
-            $total = $query->count();
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'A list with holidays blank'], 404);
-        }
+        $query = $user->holidays();
+        $total = $query->count();
         $holidays = $query->skip($request->skip)->take($request->take)->get();
 
         return response()->json(compact('total', 'holidays'));

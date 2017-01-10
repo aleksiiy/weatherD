@@ -45,11 +45,19 @@
 
         <div class="box_form">
             <div class="form-group">
-                <div class='input-group date' id='datepicker'>
+                <div class='input-group date'>
                     <input type='text' required name="date" value="{{ $holiday->date }}" class="form-control"/>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class='input-group date'>
+                    <input type='text' name="date_to" value="{{ $holiday->date_to }}" class="form-control"/>
+                    <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
                 </div>
             </div>
             {!! Form::submit('Сoхранить', ['class' => 'form-control']) !!}
@@ -64,7 +72,7 @@
     <script src="{{ url('master/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script>
         $(function () {
-            $('#datepicker').datetimepicker({
+            $('.input-group.date').datetimepicker({
                 format: 'MM-DD'
             });
         });

@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin' , 'namespace' => 'Admin'], function () {
 
     Route::get('/show','HolidayController@show');
     Route::get('/description/{id}','HolidayController@description');
+
+    Route::get('/send','HolidayController@sendPush');
 });
 Auth::routes();
 

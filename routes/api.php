@@ -17,6 +17,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
     Route::post('auth/login', 'AuthController@login');
     Route::post('user/settings', 'UsersController@settings');
     Route::get('user/settings', 'UsersController@showSettings');
+    Route::post('user/push_token', 'UsersController@pushTokenUpdate');
 
     Route::get('categories', 'HolidaysController@categories');
     Route::get('categories/{category_id}', 'HolidaysController@categoryHolidays');

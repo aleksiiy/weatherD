@@ -48,13 +48,14 @@ class SendHolidayNotifications extends Command
         $tomorrow = Carbon::tomorrow();
         $difference = $now->diffInHours($tomorrow);
         //TODO uncomment
-//        if (!in_array($difference, [1, 3, 24])) {
+//        if (!in_array($difference, [1, 3, 6, 12, 24])) {
 //            return;
 //        }
         $notifyDay = $tomorrow->year(1970)->format('Y-m-d');
         $events = Holiday::where('date', $notifyDay)->get();
         $users = User::join('usersettings', 'usersettings.user_id', '=', 'users.id')
             ->where('usersettings.active', true)
+            ->whereNotNull('users.push_token')
             ->orderBy('usersettings.time', 'DESC')
             ->select('users.*')
             ->get();

@@ -77,10 +77,10 @@ class UsersController extends Controller
             }
         }
         $input = [
-            'active'     => filter_var($request->get('active'), FILTER_VALIDATE_BOOLEAN),
-            'private'    => filter_var($request->get('private'), FILTER_VALIDATE_BOOLEAN),
-            'favorite'   => filter_var($request->get('favorite'), FILTER_VALIDATE_BOOLEAN),
-            'time'       => intval($request->get('time')),
+            'active' => filter_var($request->get('active'), FILTER_VALIDATE_BOOLEAN),
+            'private' => filter_var($request->get('private'), FILTER_VALIDATE_BOOLEAN),
+            'favorite' => filter_var($request->get('favorite'), FILTER_VALIDATE_BOOLEAN),
+            'time' => intval($request->get('time')),
             'categories' => $categories
         ];
         if ($settings = $user->settings) {
@@ -116,21 +116,58 @@ class UsersController extends Controller
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $exception) {
-            return response()->json(['error' => 'holiday not found'], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
 
         if (!($settings = $user->settings()->first())) {
             $settings = new UserSettings([
-                'active'     => true,
+                'active' => true,
                 'categories' => [1, 2, 3, 4, 5],
-                'private'    => true,
-                'favorite'   => true,
-                'time'       => 1
+                'private' => true,
+                'favorite' => true,
+                'time' => 1
             ]);
 
             $user->settings()->save($settings);
         }
 
         return response()->json(compact('settings'));
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/api/v1/user/push_token",
+     *     summary="Seaac",
+     *     tags={"user"},
+     *     description="Push user",
+     *     operationId="PushUser",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *     @SWG\Parameter(
+     *         name="push_token",
+     *         in="formData",
+     *         description="pushToken",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function pushTokenUpdate(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        $user->update(['push_token' => $request->push_token]);
+
+        return response()->json(compact('user'));
     }
 }

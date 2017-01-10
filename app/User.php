@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'device_token'
+        'name', 'email', 'password', 'device_token', 'push_token'
     ];
 
     /**
@@ -30,15 +30,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function holidays() {
+    public function holidays()
+    {
         return $this->hasMany('App\Models\PrivateHoliday');
     }
 
-    public function favorites() {
+    public function favorites()
+    {
         return $this->belongsToMany('App\Models\Holiday', 'holidays_users');
     }
 
-    public function settings() {
+    public function settings()
+    {
 
         return $this->hasOne('App\Models\UserSettings');
     }
