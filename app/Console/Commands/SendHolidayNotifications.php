@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Jobs\SendNotificationOfHolidays;
-use App\Models\Category;
 use App\Models\Holiday;
 use App\User;
 use Carbon\Carbon;
