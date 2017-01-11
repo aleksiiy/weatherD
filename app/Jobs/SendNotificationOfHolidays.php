@@ -40,7 +40,7 @@ class SendNotificationOfHolidays implements ShouldQueue
         $notifyEvents = $this->notifyEvents;
 
         $message = PushNotification::Message('Holidays are coming', [
-            'notifyEvents' => $notifyEvents
+            'notifyEvents' => json_encode($notifyEvents)
         ]);
         PushNotification::app('kzHolidaysAndroid')
             ->to($user->push_token)
