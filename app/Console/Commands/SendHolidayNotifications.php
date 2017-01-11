@@ -47,10 +47,10 @@ class SendHolidayNotifications extends Command
         $now->minute(0)->second(0);
         $tomorrow = Carbon::tomorrow();
         $difference = $now->diffInHours($tomorrow);
-        //TODO uncomment
-//        if (!in_array($difference, [1, 3, 6, 12, 24])) {
-//            return;
-//        }
+
+        if (!in_array($difference, [1, 3, 6, 12, 24])) {
+            return;
+        }
         $notifyDay = $tomorrow->year(1970)->format('Y-m-d');
         $events = Holiday::where('date', $notifyDay)->where('floating', '=', 0)->get();
         $users = User::join('usersettings', 'usersettings.user_id', '=', 'users.id')
@@ -64,10 +64,9 @@ class SendHolidayNotifications extends Command
         }
         foreach ($users as $user) {
             $settings = $user->settings;
-            //TODO uncomment
-//            if ($now->addHours($settings->time) !== Carbon::tomorrow()) {
-//                continue;
-//            }
+            if ($now->addHours($settings->time) !== Carbon::tomorrow()) {
+                continue;
+            }
             $userCategories = $settings->categories;
             $adminEvents = new Collection();
             $privateEvents = new Collection();
