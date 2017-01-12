@@ -487,9 +487,13 @@ class HolidaysController extends Controller
 
     public function addToFavorite($id)
     {
-        $user = JWTAuth::parseToken()->authenticate();
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
         if ((Holiday::find($id)) !== null) {
-            if ((HolidaysUser::whereHolidayId($id)->first()) == null) {
+            if (($user->favorites()->where('holiday_id', '=', $id)->first()) == null) {
                 HolidaysUser::create(['user_id' => $user->id, 'holiday_id' => $id]);
             } else {
                 return response()->json(['Holiday has been already added to favorites'], 422);
