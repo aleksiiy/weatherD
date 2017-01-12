@@ -605,10 +605,10 @@ class HolidaysController extends Controller
         }
         $dateInMonth = Carbon::now()->addMonth();
         $dateInMonth->year = Holiday::DEFAULT_YEAR;
-        $dateInMonth->format('Y-d-m');
+        $dateInMonth = $dateInMonth->format('Y-m-d');
         $now = Carbon::now();
         $now->year = Holiday::DEFAULT_YEAR;
-        $now->format('Y-d-m');
+        $now = $now->format('Y-m-d');
         $publicHolidays = Holiday::whereBetween('date', [$now, $dateInMonth])->orderBy('date', 'asc')->get();
         $privateHolidays = $user->holidays()->whereBetween('date', [$now, $dateInMonth])->orderBy('date', 'asc')->get();
         $unsortedHolidays = new Collection();
@@ -648,7 +648,7 @@ class HolidaysController extends Controller
         }
         $now = Carbon::now();
         $now->year = Holiday::DEFAULT_YEAR;
-        $now->format('Y-d-m');
+        $now = $now->format('Y-m-d');
         $publicHolidays = Holiday::where('date', '=', $now)->get();
         $privateHolidays = $user->holidays()->where('date', '=', $now)->get();
         $unsortedHolidays = new Collection();
