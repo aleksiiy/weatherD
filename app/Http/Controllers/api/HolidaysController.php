@@ -97,7 +97,7 @@ class HolidaysController extends Controller
     {
         $category = Category::findOrFail($category_id);
         $total = $category->holidays()->count();
-        $holidays = $category->holidays()->skip($request->skip)->take($request->take)->get();
+        $holidays = $category->holidays()->orderBy('date', 'asc')->skip($request->skip)->take($request->take)->get();
 
         return response()->json(compact('total', 'holidays'));
     }
