@@ -20,7 +20,8 @@ class CreateHolidaysUsersTable extends Migration
 
             $table->foreign('holiday_id')
                 ->references('id')
-                ->on('holidays');
+                ->on('holidays')
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
                 ->references('id')
