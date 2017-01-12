@@ -605,10 +605,10 @@ class HolidaysController extends Controller
         }
         $dateInMonth = Carbon::now()->addMonth();
         $dateInMonth->year = Holiday::DEFAULT_YEAR;
-        $dateInMonth->format('Y-d-m');
+        $dateInMonth = $dateInMonth->format('Y-m-d');
         $now = Carbon::now();
         $now->year = Holiday::DEFAULT_YEAR;
-        $now->format('Y-d-m');
+        $now = $now->format('Y-m-d');
         $publicHolidays = Holiday::whereBetween('date', [$now, $dateInMonth])->orderBy('date', 'asc')->get();
         $privateHolidays = $user->holidays()->whereBetween('date', [$now, $dateInMonth])->orderBy('date', 'asc')->get();
         $unsortedHolidays = new Collection();
@@ -617,6 +617,47 @@ class HolidaysController extends Controller
             $unsortedHolidays->push($holiday);
         }
         $holidays = $unsortedHolidays->sortBy('original_date')->values();
+        return response()->json(compact('holidays'));
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays/today",
+     *     summary="Today Holidays",
+     *     tags={"holidays"},
+     *     description="Get holidays for today",
+     *     operationId="todayHolidays",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function todayHolidays(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        $now = Carbon::now();
+        $now->year = Holiday::DEFAULT_YEAR;
+        $now = $now->format('Y-m-d');
+        $publicHolidays = Holiday::where('date', '=', $now)->get();
+        $privateHolidays = $user->holidays()->where('date', '=', $now)->get();
+        $unsortedHolidays = new Collection();
+        $unsortedHolidays = $unsortedHolidays->merge($publicHolidays);
+        foreach ($privateHolidays as $holiday) {
+            $unsortedHolidays->push($holiday);
+        }
+        $holidays = $unsortedHolidays->sortBy('id')->values();
+
         return response()->json(compact('holidays'));
     }
 
