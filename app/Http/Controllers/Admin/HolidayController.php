@@ -75,10 +75,14 @@ class HolidayController extends Controller
     public function destroyHoliday($id)
     {
         try {
-            Holiday::whereId($id)->delete();
+            $holiday = Holiday::findOrFail($id);
         } catch (Exception $exception) {
             return response()->json(['error' => 'holiday you want to delete is not found'], 404);
         }
+        $dir = Holiday::IMAGE_FOLDER;
+        File::delete(public_path() . $dir . $holiday->image);
+        $holiday->delete();
+
         return redirect('admin/show');
     }
 
