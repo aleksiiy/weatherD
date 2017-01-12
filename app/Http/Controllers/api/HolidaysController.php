@@ -581,7 +581,11 @@ class HolidaysController extends Controller
 
     public function showRandomHoliday(Request $request)
     {
-        $randomHoliday = Holiday::inRandomOrder(8)->skip($request->skip)->take($request->take)->get();
+        $subMonth = Carbon::now()->subMonth();
+        $now = Carbon::now()->addDay();
+        $now->year = Holiday::DEFAULT_YEAR;
+        $now = $now->format('Y-m-d');
+        $randomHoliday = Holiday::whereNotBetween('votes', [$subMonth, $now])->inRandomOrder()->skip($request->skip)->take($request->take)->get();
         return response()->json(compact('randomHoliday'));
     }
 
@@ -614,7 +618,7 @@ class HolidaysController extends Controller
         $dateInMonth = Carbon::now()->addMonth();
         $dateInMonth->year = Holiday::DEFAULT_YEAR;
         $dateInMonth = $dateInMonth->format('Y-m-d');
-        $now = Carbon::now();
+        $now = Carbon::now()->addDay();
         $now->year = Holiday::DEFAULT_YEAR;
         $now = $now->format('Y-m-d');
         $publicHolidays = Holiday::whereBetween('date', [$now, $dateInMonth])->orderBy('date', 'asc')->get();
