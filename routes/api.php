@@ -34,6 +34,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api'], function () {
     Route::delete('holidays/favorite/{id}', 'HolidaysController@destroy');
     Route::get('holidays/random/{skip}', 'HolidaysController@showRandomHoliday');
 
+    Route::get('holidays/today', 'HolidaysController@todayHolidays');
     Route::get('holidays/near', 'HolidaysController@nearHolidays');
     Route::get('holidays/search', 'HolidaysController@searchHolidays');
     Route::get('holidays/month', 'HolidaysController@monthHolidays');

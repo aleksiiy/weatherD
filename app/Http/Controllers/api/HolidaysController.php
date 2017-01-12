@@ -620,6 +620,47 @@ class HolidaysController extends Controller
         return response()->json(compact('holidays'));
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/holidays/today",
+     *     summary="Today Holidays",
+     *     tags={"holidays"},
+     *     description="Get holidays for today",
+     *     operationId="todayHolidays",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *
+     *
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *     )
+     * )
+     *
+     */
+
+    public function todayHolidays(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        $now = Carbon::now();
+        $now->year = Holiday::DEFAULT_YEAR;
+        $now->format('Y-d-m');
+        $publicHolidays = Holiday::where('date', '=', $now)->get();
+        $privateHolidays = $user->holidays()->where('date', '=', $now)->get();
+        $unsortedHolidays = new Collection();
+        $unsortedHolidays = $unsortedHolidays->merge($publicHolidays);
+        foreach ($privateHolidays as $holiday) {
+            $unsortedHolidays->push($holiday);
+        }
+        $holidays = $unsortedHolidays->sortBy('id')->values();
+
+        return response()->json(compact('holidays'));
+    }
+
 
     /**
      * @SWG\Get(
