@@ -537,8 +537,8 @@ class HolidaysController extends Controller
         } catch (Exception $exception) {
             return response()->json(['error' => 'User not found'], 404);
         }
-        if ($user->favorites()->where('holiday_id', '=', $id)->first()) {
-            HolidayUser::whereUserId($user->id)->whereHolidayId($id)->delete();
+        if (($user->favorites()->where('holiday_id', '=', $id)->first()) != null) {
+           HolidaysUser::whereHolidayId($id)->whereUserId($user->id)->delete();
         } else {
             return response()->json(['error' => 'Holiday not found'], 404);
         }
