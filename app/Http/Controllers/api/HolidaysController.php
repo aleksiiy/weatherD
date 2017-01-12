@@ -532,9 +532,13 @@ class HolidaysController extends Controller
 
     public function destroy($id)
     {
-        if ($holiday = HolidaysUser::whereHolidayId($id)->first()) {
-            $holiday = HolidaysUser::whereHolidayId($id);
-            $holiday->delete();
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        if ($user->favorites()->where('holiday_id', '=', $id)->first()) {
+            HolidayUser::whereUserId($user->id)->whereHolidayId($id)->delete();
         } else {
             return response()->json(['error' => 'Holiday not found'], 404);
         }
