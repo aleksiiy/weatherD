@@ -492,7 +492,7 @@ class HolidaysController extends Controller
             if ((HolidaysUser::whereHolidayId($id)->first()) == null) {
                 HolidaysUser::create(['user_id' => $user->id, 'holiday_id' => $id]);
             } else {
-                return response()->json(['Holiday has been already added to favorites'], 404);
+                return response()->json(['Holiday has been already added to favorites'], 422);
             }
         } else {
             return response()->json(['Holiday not found'], 404);
