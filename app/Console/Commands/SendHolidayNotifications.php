@@ -63,7 +63,7 @@ class SendHolidayNotifications extends Command
         }
         foreach ($users as $user) {
             $settings = $user->settings;
-            if ($now->addHours($settings->time) !== Carbon::tomorrow()) {
+            if ($difference != $settings->time) {
                 continue;
             }
             $userCategories = $settings->categories;
