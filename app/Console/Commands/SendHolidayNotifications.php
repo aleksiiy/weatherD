@@ -42,9 +42,9 @@ class SendHolidayNotifications extends Command
      */
     public function handle()
     {
-        $now = Carbon::now();
+        $now = Carbon::now('Asia/Almaty');
         $now->minute(0)->second(0);
-        $tomorrow = Carbon::tomorrow();
+        $tomorrow = Carbon::tomorrow('Asia/Almaty');
         $difference = $now->diffInHours($tomorrow);
 
         if (!in_array($difference, [1, 3, 6, 12, 24])) {
