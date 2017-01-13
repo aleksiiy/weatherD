@@ -17,7 +17,15 @@ class HolidayController extends Controller
     {
         $category = Category::findOrFail($id);
         $holidays = $category->holidays;
-        return view('admin.holidays.holidays_create', compact('holidays'));
+        $colors = [
+            '#000000',
+            '#ffffff',
+            '#929292',
+            '#ff0000',
+            '#a1d623',
+            '#20b1f5',
+        ];
+        return view('admin.holidays.holidays_create', compact('holidays', 'colors'));
     }
 
     public function save($id, Request $request)
@@ -47,7 +55,15 @@ class HolidayController extends Controller
     public function updateHoliday($id)
     {
         $holiday = Holiday::findOrFail($id);
-        return view('admin.holidays.update_holiday', compact('holiday'));
+        $colors = [
+            '#000000',
+            '#ffffff',
+            '#929292',
+            '#ff0000',
+            '#a1d623',
+            '#20b1f5',
+        ];
+        return view('admin.holidays.update_holiday', compact('holiday', 'colors'));
     }
 
     public function editHoliday($id, Request $request)
@@ -75,7 +91,7 @@ class HolidayController extends Controller
     public function destroyHoliday($id)
     {
         try {
-            $holiday = Holiday::findOrFail($id);
+            $holiday = Holiday::find($id);
         } catch (Exception $exception) {
             return response()->json(['error' => 'holiday you want to delete is not found'], 404);
         }

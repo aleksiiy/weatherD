@@ -1,114 +1,147 @@
 .content_box {
-  width: 100%;
-  min-height: 150px;
+    width: 100%;
+    min-height: 150px;
 }
 
 .box_form {
-  width: 90%;
-  margin: 10px auto;
+    width: 90%;
+    margin: 10px auto;
 }
 
 .case_from {
-  width: 48%;
-  margin: 10px;
-  float: left;
+    width: 48%;
+    margin: 10px;
+    float: left;
 }
 
 .control-label {
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 3px;
-  border: 1px solid #CCCCCC;
-  padding: 3px;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 3px;
+    border: 1px solid #CCCCCC;
+    padding: 3px;
 }
 
 a .button {
-  font-weight: 700;
-  color: white;
-  text-decoration: none;
-  padding: 0.8em 1em calc(.8em + 3px);
-  border-radius: 3px;
-  background: #40c781;
-  box-shadow: 0 -3px #35a76e inset;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    padding: 0.8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: #40c781;
+    box-shadow: 0 -3px #35a76e inset;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
 }
 
 a .button:hover {
-  background: #35a76e;
+    background: #35a76e;
 }
 
 a .button:active {
-  background: #21935a;
-  box-shadow: 0 3px #21935a inset;
+    background: #21935a;
+    box-shadow: 0 3px #21935a inset;
 }
 
 ul.dropdown li {
-  position: relative;
+    position: relative;
 }
 
 ul.dropdown,
 ul.dropdown-inside {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 
 ul.dropdown-inside {
-  position: absolute;
-  left: -9999px;
+    position: absolute;
+    left: -9999px;
 }
 
 ul.dropdown li.dropdown-top {
-  display: inline;
-  float: left;
-  margin: 0 1px 0 0;
+    display: inline;
+    float: left;
+    margin: 0 1px 0 0;
 }
 
 ul.dropdown li.dropdown-top a {
-  padding: 3px 10px 4px;
-  display: block;
+    padding: 3px 10px 4px;
+    display: block;
 }
 
 ul.dropdown a.dropdown-top {
-  background: #43a579;
+    background: #43a579;
 }
 
 ul.dropdown a.dropdown-top:hover {
-  padding: 2px 10px 5px;
+    padding: 2px 10px 5px;
 }
 
 ul.dropdown li.dropdown-top:hover .dropdown-inside {
-  display: block;
-  left: 0;
+    display: block;
+    left: 0;
 }
 
 ul.dropdown .dropdown-inside {
-  background: #fff;
+    background: #fff;
 }
 
 ul.dropdown .dropdown-inside a:hover {
-  background: #efefef;
+    background: #efefef;
 }
 
 .description {
-  cursor: pointer;
-  text-decoration: none;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 /* admin/show holidays */
 .dropdown-top {
-  color: #0A0A0A;
-  font-size: 18px;
-  text-decoration: none;
+    color: #0A0A0A;
+    font-size: 18px;
+    text-decoration: none;
 }
 
 .logo_pointer {
-  text-align: center;
-  position: relative;
-  line-height: 1;
-  padding: 10px 5px;
-  color: #00BFA5;
-  font-size: 35px;
-  text-decoration: none;
-  display: block;
+    text-align: center;
+    position: relative;
+    line-height: 1;
+    padding: 10px 5px;
+    color: #00BFA5;
+    font-size: 35px;
+    text-decoration: none;
+    display: block;
+}
+
+.color-picker {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.color{
+    display: inline-block;
+    width: 160px;
+    height: 100%;
+    margin-top: 10px;
+    margin-right: 5px;
+    float: left;
+}
+.color label{
+    display: inline-block;
+}
+.color-picker.active {
+    -webkit-box-shadow: 0 0 8px 0 #333;
+    box-shadow: 0 0 8px 0 #333;
+}
+.opacity{
+    display: inline-block;
+    width: 190px;
+    height: 100%;
+    margin-top: 5px;
+    margin-right: 5px;
+    float: left;
 }
