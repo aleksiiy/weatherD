@@ -145,3 +145,30 @@ ul.dropdown .dropdown-inside a:hover {
     margin-right: 5px;
     float: left;
 }
+.help{
+    display: inline-block;
+    width: 250px;
+    height: 100%;
+    margin-left: 200px;
+    margin-bottom: 20px;
+    float: left;
+}
+.image{
+    display: inline-block;
+    width: 350px;
+    height: 120px;
+    float: left;
+}
+.text_holides{
+    padding-left: 10px;
+    border: 1px solid #f5f5f5;
+    border-radius: 8px;
+    font-size: 18px;
+    line-height: 50px;
+    margin-bottom: 0;
+    display: block;
+    white-space: nowrap;
+    width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

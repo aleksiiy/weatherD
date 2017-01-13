@@ -21,17 +21,21 @@
                         <tr>
                             <td>
                                 @if($holiday->image != null)
-                                <img src="{{ $holiday->image_url }}" width="50px" height="50px;">
-                                  @else
+                                    <img style="opacity: {{$holiday->opacity}} " src="{{ $holiday->image_url }}" width="90px" height="50px;">
+                                @else
                                     <i class="fa fa-file-image-o fa-2x" style="color:#53a17e;" aria-hidden="true"></i>
                                 @endif
                             </td>
                             <td>
-                                <p class="text_holides">
+                                <p class="text_holides" style="padding-left: 10px; color:{{ $holiday->name_color }};
+                                        @if(($holiday->name_color) == ('#ffffff'))
+                                        text-shadow: 0 1px 8px #000000;
+                                        @endif
+                                        ">
                                     @if($holiday->name_ru != '')
-                                    {{ $holiday->name_ru }}
-                                        @else
-                                    {{ $holiday->name_kz }}
+                                        {{ $holiday->name_ru }}
+                                    @else
+                                        {{ $holiday->name_kz }}
                                     @endif
                                 </p>
                             </td>
@@ -40,7 +44,8 @@
                                 <a href="/admin/holiday/update/{{$holiday->id}}" class="fa fa-pencil-square fa-2x"
                                    aria-hidden="true"></a>
 
-                                <a href="/admin/holiday/destroy/{{$holiday->id}}" style="color: red;" class="fa fa-trash fa-2x"
+                                <a href="/admin/holiday/destroy/{{$holiday->id}}" style="color: red;"
+                                   class="fa fa-trash fa-2x"
                                    aria-hidden="true"></a>
                             </td>
                         </tr>

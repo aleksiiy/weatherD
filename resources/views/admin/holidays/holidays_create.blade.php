@@ -85,13 +85,18 @@
                             style="background-color: {{ $color }}"></span>
                 @endforeach
             </div>
-            <div class="form-group" style="margin-top: 30px; margin-bottom: 15px;">
-                <div class="opacity">
-                    {!! Form::label('date_color', 'Прозрачность картинки') !!}
+            <div class="form-group">
+                <div class="form-group" style="margin-top: 30px; margin-bottom: 15px;">
+                    <div class="opacity">
+                        {!! Form::label('date_color', 'Прозрачность картинки') !!}
+                    </div>
+                    <input id="opacity" name="opacity" type="text" data-slider-min="0"
+                           data-slider-tooltip="always" data-slider-tooltip_position="bottom"
+                           data-slider-max="1" data-slider-step="0.01" data-slider-value="1"/>
                 </div>
-                <input id="opacity" name="opacity" type="text" data-slider-min="0"
-                       data-slider-tooltip="always" data-slider-tooltip_position="bottom"
-                       data-slider-max="1" data-slider-step="0.01" data-slider-value="1"/>
+                <div class="help">
+                    {!! Form::label('date_color', '(0 - невидимый, 1 - видимый)') !!}
+                </div>
             </div>
             {!! Form::submit('Сoхранить', ['class' => 'form-control']) !!}
         </div>
