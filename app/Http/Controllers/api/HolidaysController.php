@@ -584,10 +584,10 @@ class HolidaysController extends Controller
         $subMonth = Carbon::now()->subMonth();
         $subMonth->year = Holiday::DEFAULT_YEAR;
         $subMonth = $subMonth->format('Y-m-d');
-        $now = Carbon::tomorrow();
+        $now = Carbon::now();
         $now->year = Holiday::DEFAULT_YEAR;
         $now = $now->format('Y-m-d');
-        $randomHoliday = Holiday::inRandomOrder()->whereNotBetween('date', [$subMonth, $now])->skip($request->skip)->take($request->take)->get();
+        $randomHoliday = Holiday::inRandomOrder()->where('date', '<=', $subMonth)->where('date', '>', $now)->skip($request->skip)->take($request->take)->get();
         return response()->json(compact('randomHoliday'));
     }
 
