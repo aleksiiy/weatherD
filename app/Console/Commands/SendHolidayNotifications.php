@@ -84,7 +84,9 @@ class SendHolidayNotifications extends Command
                 'holidays'        => $adminEvents,
                 'privateHolidays' => $privateEvents
             ];
-            dispatch(new SendNotificationOfHolidays($user, $notifyEvents));
+            if ($adminEvents->count() > 0 || $privateEvents->count() > 0) {
+                dispatch(new SendNotificationOfHolidays($user, $notifyEvents));
+            }
         }
 
     }
