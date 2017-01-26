@@ -49,7 +49,8 @@ class HolidayController extends Controller
     public function show()
     {
         $holidays = Holiday::all();
-        return view('admin.holidays.show_holiday', compact('holidays'));
+        $categories = Category::pluck('name_ru', 'id');
+        return view('admin.holidays.show_holiday', compact('holidays', 'categories'));
     }
 
     public function updateHoliday($id)
@@ -107,5 +108,19 @@ class HolidayController extends Controller
         Artisan::call('send:holidays');
 
         return response('Push motification command has been executed');
+    }
+
+    public function copyHoliday(Request $request)
+    {
+        $holiday = Holiday::findOrFail($request->holiday_id);
+        $duplicatedHoliday = $holiday->replicate();
+        $category = Category::findOrFail($request->category);
+        $dir = Holiday::IMAGE_FOLDER;
+        $filename = uniqid() . '.' . File::extension(public_path() . $dir . $duplicatedHoliday->image);
+        File::copy(public_path() . $dir . $holiday->image, public_path() . $dir . $filename);
+        $duplicatedHoliday->image = $filename;
+        $category->holidays()->save($duplicatedHoliday);
+
+        return redirect()->route('holiday.edit', ['id' => $duplicatedHoliday->id]);
     }
 }

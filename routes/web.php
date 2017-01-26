@@ -31,9 +31,10 @@ Route::group(['prefix' => 'admin' , 'namespace' => 'Admin'], function () {
     Route::get('/category/{id}', 'HolidayController@create');
     Route::PATCH('/category/{id}', 'HolidayController@save');
 
-    Route::get('/holiday/update/{id}','HolidayController@updateHoliday');
+    Route::get('/holiday/update/{id}','HolidayController@updateHoliday')->name('holiday.edit');
     Route::post('/holiday/edit/{id}','HolidayController@editHoliday');
     Route::get('/holiday/destroy/{id}','HolidayController@destroyHoliday');
+    Route::post('/holiday/copy','HolidayController@copyHoliday')->name('holiday.clone');;
 
     Route::get('/show','HolidayController@show');
     Route::get('/description/{id}','HolidayController@description');
