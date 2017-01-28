@@ -720,7 +720,7 @@ class HolidaysController extends Controller
         foreach ($privateHolidays as $holiday) {
             $unsortedHolidays->push($holiday);
         }
-        $holidays = $unsortedHolidays->sortBy('original_date')->values();
+        $holidays = $unsortedHolidays->unique('name_ru')->sortBy('original_date')->values();
 
         return response()->json(compact('holidays'));
     }
