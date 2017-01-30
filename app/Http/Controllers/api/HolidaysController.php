@@ -710,17 +710,17 @@ class HolidaysController extends Controller
             return response()->json(['error' => 'User not found'], 404);
         }
         $month = $request->month;
-        $dateStart = Carbon::createFromDate(1970, $month)->startOfMonth();
-        $dateEnd = Carbon::createFromDate(1970, $month)->endOfMonth();
+        $dateStart = Carbon::createFromDate(1970, $month, 1)->startOfMonth();
+        $dateEnd = Carbon::createFromDate(1970, $month, 1)->endOfMonth();
 
-        $publicHolidays = Holiday::whereBetween('date', [$dateStart, $dateEnd])->orderBy('date', 'asc')->get();
+        $publicHolidays = Holiday::whereBetween('date', [$dateStart, $dateEnd])->orderBy('date', 'asc')->get()->unique('name_ru');
         $privateHolidays = $user->holidays()->whereBetween('date', [$dateStart, $dateEnd])->orderBy('date', 'asc')->get();
         $unsortedHolidays = new Collection();
         $unsortedHolidays = $unsortedHolidays->merge($publicHolidays);
         foreach ($privateHolidays as $holiday) {
             $unsortedHolidays->push($holiday);
         }
-        $holidays = $unsortedHolidays->unique('name_ru')->sortBy('original_date')->values();
+        $holidays = $unsortedHolidays->sortBy('original_date')->values();
 
         return response()->json(compact('holidays'));
     }
